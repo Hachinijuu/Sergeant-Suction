@@ -153,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3644276067525422874, guid: 69596dafc66c1b04cb6f95eb06cfbeaf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 471.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3644276067525422874, guid: 69596dafc66c1b04cb6f95eb06cfbeaf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -639,12 +639,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3248969333524886148}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6903455, y: 0.1530459, z: 0.1530459, w: 0.6903455}
-  m_LocalPosition: {x: -681.0891, y: -50, z: 1097.4255}
-  m_LocalScale: {x: 2.073368, y: 0.66683, z: 1.765966}
+  m_LocalRotation: {x: -0, y: -0, z: 0.21643959, w: 0.97629607}
+  m_LocalPosition: {x: -1929.9375, y: -1066.6703, z: -70.18919}
+  m_LocalScale: {x: 2.073368, y: 0.6668298, z: 1.7659655}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5631025194132832002}
+  m_Father: {fileID: 7959279303182666091}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &838114890279962676
 Transform:
@@ -710,12 +710,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6578912984932695115}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -2407.45, y: 0, z: -7.7860675}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -1249, y: 0, z: -1.9465169}
+  m_LocalScale: {x: 0.25, y: 0.25000006, z: 0.25000006}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5631025194132832002}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1562258275678044022
 MeshFilter:
@@ -801,7 +801,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7959279303182666091}
   m_Layer: 0
-  m_Name: Goo Capsules
+  m_Name: Circuit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -894,7 +894,7 @@ GameObject:
   - component: {fileID: 1388158574325067681}
   - component: {fileID: 4415639512986093400}
   m_Layer: 0
-  m_Name: Box001
+  m_Name: StartArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1208,12 +1208,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2511936464404147045}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 2506.9487, y: 0, z: 0.18759164}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.25, y: 0.25000006, z: 0.25000006}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5631025194132832002}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3741752784709773898
 MeshFilter:
@@ -1373,22 +1373,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &5003142089463014840
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5631025194132832002}
-  m_Layer: 0
-  m_Name: Whitebox_Map_Assets
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!23 &5029983716450149732
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1471,25 +1455,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7959279303182666091}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &5631025194132832002
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5003142089463014840}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
-  m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 739703883751919784}
-  - {fileID: 3551272490247290977}
-  - {fileID: 1506034397734021389}
-  - {fileID: 7959279303182666091}
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &5639931857808963562
 MeshRenderer:
@@ -1882,9 +1847,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1849814118590587645}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1248.8484, y: 20.18906, z: 30.755074}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -344, y: 5.047265, z: 7.6887684}
+  m_LocalScale: {x: 0.25, y: 0.25000006, z: 0.25000006}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 176105317919891662}
@@ -1902,7 +1867,8 @@ Transform:
   - {fileID: 4609435372597183300}
   - {fileID: 1188123271378349948}
   - {fileID: 6643720790630327000}
-  m_Father: {fileID: 5631025194132832002}
+  - {fileID: 739703883751919784}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8093720176022135579
 MeshFilter:
@@ -2056,4 +2022,6 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 156720028}
   - {fileID: 1252564398}
-  - {fileID: 5631025194132832002}
+  - {fileID: 3551272490247290977}
+  - {fileID: 1506034397734021389}
+  - {fileID: 7959279303182666091}
