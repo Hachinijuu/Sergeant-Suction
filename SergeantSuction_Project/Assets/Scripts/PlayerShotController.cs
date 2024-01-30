@@ -9,9 +9,9 @@ public class PlayerShotController : MonoBehaviour
 
     bool fireHolding = false;
     [SerializeField]
-    float MAX_HOLDTIME = 2.0f;
+    float MAX_HOLDTIME = 10.0f;
     [SerializeField]
-    float timeHolding = 0.0f;
+    float timeHolding = 0f;
 
     private void Update()
     {
@@ -35,14 +35,13 @@ public class PlayerShotController : MonoBehaviour
         bool checkForSecondaryFire = Input.GetButtonDown("Fire2");
         if (suckGun && fireCheckStart)
         {
-
             fireHolding = true;
         }
         if (suckGun && checkForPrimaryFire)
         {
             suckGun.FirePrimaryFire();
             fireHolding = false;
-            timeHolding = 0.0f;
+            timeHolding = 10.0f ;
         }
     }
 }
