@@ -22,6 +22,7 @@ public class Asteroid : MonoBehaviour
             if (currentType == asteroidType.Normal)
             {
                 //do smth?
+                //Just do damage to the player - S.
             }
             else if (currentType == asteroidType.Goo)
             {
@@ -38,6 +39,7 @@ public class Asteroid : MonoBehaviour
             else if (currentType == asteroidType.Sharp)
             {
                 //take more damage than normal?
+                //We could have the player take more damage, and get the asteroid destroyed. we could freeze the player too even. - S.
             }
         }
     }

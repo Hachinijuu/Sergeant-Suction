@@ -13,11 +13,10 @@ GameObject:
   - component: {fileID: 406146315439465469}
   - component: {fileID: 2664771055947097940}
   - component: {fileID: 1374874979701775923}
-  - component: {fileID: 7589634633436751985}
-  - component: {fileID: 6863843396552901000}
+  - component: {fileID: 5169754959393941619}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 7897451048025469423}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.36, z: 0}
+  m_LocalPosition: {x: 0, y: 4.375, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -104,7 +103,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -133,9 +132,9 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7589634633436751985
+--- !u!114 &5169754959393941619
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,22 +143,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7897451048025469423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e429d84b39e897a4a8ade687d57f04f7, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ebd1a4a4027653468f8fe37cb971289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireStrength: 35
-  movementSpeed: 20
---- !u!114 &6863843396552901000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7897451048025469423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ab1e3fd6fe98b64b9788ec0b43a8b47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 0}
-  cameraHeight: 150
+  playerCamera: {fileID: 0}
+  cameraDistance: 100
+  maxForce: 25
+  chargeTime: 3
+  forceMultiplier: 2
+  Bounced: 0
+  BounceVector: {x: 0, y: 0, z: 0}
