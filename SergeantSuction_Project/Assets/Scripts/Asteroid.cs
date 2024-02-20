@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
-    enum asteroidType { ammoRock, Normal, Goo, sharp }
+    enum asteroidType { ammoRock, Normal, Goo, Sharp }
 
     [SerializeField]
     asteroidType currentType;
@@ -39,9 +39,9 @@ public class Asteroid : MonoBehaviour
                 // transform.Rotate(new Vector3(transform.rotation.x, transform.rotation.y + 180, transform.rotation.z));
                 //do reflect function 
             }
-            else if (currentType == asteroidType.sharp)
+            else if (currentType == asteroidType.Sharp)
             {
-                collision.gameObject.GetComponent<Player>().TakeDamage(100);        
+                collision.gameObject.GetComponent<Player>().TakeDamage(99);        
             }
             
         }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.004680489, g: 0.004390932, b: 0.0084424205, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3904,7 +3904,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3644276067525422874, guid: b5a79dc68fdc4e249815ba6c100ede71, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5800.3
+      value: -5724.9
       objectReference: {fileID: 0}
     - target: {fileID: 3644276067525422874, guid: b5a79dc68fdc4e249815ba6c100ede71, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3912,7 +3912,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3644276067525422874, guid: b5a79dc68fdc4e249815ba6c100ede71, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -73.7
+      value: -66.5
       objectReference: {fileID: 0}
     - target: {fileID: 3644276067525422874, guid: b5a79dc68fdc4e249815ba6c100ede71, type: 3}
       propertyPath: m_LocalRotation.w
@@ -18622,13 +18622,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5298437, y: -0.37452996, z: 0.35924953, w: -0.67077035}
-  m_LocalPosition: {x: -5144, y: 1278, z: -98}
+  m_LocalRotation: {x: -0.6604065, y: -0.43757066, z: 0.36464152, w: -0.48931766}
+  m_LocalPosition: {x: -5144, y: 268, z: -98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 101.505005, y: -142.38, z: 154.756}
+  m_LocalEulerAnglesHint: {x: 105.114, y: -348.182, z: -57.992004}
 --- !u!1001 &705797727
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25137,9 +25137,9 @@ MonoBehaviour:
   currentMode: 0
   playerCamera: {fileID: 963194225}
   cameraDistance: 65
-  maxForce: 25
-  chargeTime: 5
-  forceMultiplier: 3
+  maxForce: 30
+  chargeTime: 2
+  forceMultiplier: 4.5
   Bounced: 0
   BounceVector: {x: 0, y: 0, z: 0}
   projectilePrefab: {fileID: 3681571882185195010, guid: a1e4c944f0e40ad49b8deb32f3dd0d25, type: 3}
@@ -36028,7 +36028,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3119550272487768600, guid: 8d1f6cdd9e58de44790aac9d0a254fc2, type: 3}
       propertyPath: m_IsTrigger
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4259054565556103034, guid: 8d1f6cdd9e58de44790aac9d0a254fc2, type: 3}
       propertyPath: m_Name
@@ -51841,6 +51841,100 @@ Transform:
   m_Children: []
   m_Father: {fileID: 729216735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2024118744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2024118746}
+  - component: {fileID: 2024118745}
+  m_Layer: 0
+  m_Name: Directional Light (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &2024118745
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024118744}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 1
+  m_Shape: 0
+  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 1
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 2
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!4 &2024118746
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024118744}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.3606012, y: 0.2786785, z: 0.49675956, w: -0.7386034}
+  m_LocalPosition: {x: -5144, y: -693, z: -98}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: -125.948, y: -545.219, z: 114.817}
 --- !u!1001 &2030303262
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54696,7 +54790,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -54816,7 +54910,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -54861,7 +54955,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -54964,7 +55058,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -55020,7 +55114,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -55591,6 +55685,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 963194228}
   - {fileID: 705507995}
+  - {fileID: 2024118746}
   - {fileID: 47846630}
   - {fileID: 156720028}
   - {fileID: 450497944}

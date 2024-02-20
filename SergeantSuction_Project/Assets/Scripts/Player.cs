@@ -255,9 +255,9 @@ public class Player : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 100, 20), "Health " + playerHealth);
-        GUI.Label(new Rect(10, 30, 200, 20), "Ammo " + currentAmmo);
-        GUI.Label(new Rect(10, 50, 300, 20), "Mode " + currentMode);
+        GUI.Label(new Rect(10, 10, 200, 40), "Health " + playerHealth);
+        GUI.Label(new Rect(10, 30, 400, 40), "Ammo " + currentAmmo);
+        GUI.Label(new Rect(10, 50, 600, 40), "Mode " + currentMode);
     }
 
 }
