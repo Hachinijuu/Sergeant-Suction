@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 366726183745762376}
   - component: {fileID: 8972737255950448295}
   - component: {fileID: 1157424760532253586}
+  - component: {fileID: 407541437923483128}
   m_Layer: 0
   m_Name: Solar_Fragment
   m_TagString: Untagged
@@ -106,3 +107,16 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -210561633766615646, guid: 6b1588fe7989aba43b2a912219fe35cf, type: 3}
+--- !u!114 &407541437923483128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318138656570767471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f4605a412981fc448d1b977eb0aa1a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentType: 3

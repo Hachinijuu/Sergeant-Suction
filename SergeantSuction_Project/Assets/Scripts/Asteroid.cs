@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
-    enum asteroidType { Normal, Goo, Sharp }
+    enum asteroidType { ammoRock, Normal, Goo, sharp }
 
     [SerializeField]
     asteroidType currentType;
-    // Start is called before the first frame update
+
+    private void Start()
+    {
+        
+    }
 
     // Update is called once per frame
     void Update()
     {
-
+      
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -21,8 +25,7 @@ public class Asteroid : MonoBehaviour
         {
             if (currentType == asteroidType.Normal)
             {
-                //do smth?
-                //Just do damage to the player - S.
+                collision.gameObject.GetComponent<Player>().TakeDamage(10);
             }
             else if (currentType == asteroidType.Goo)
             {
@@ -36,11 +39,11 @@ public class Asteroid : MonoBehaviour
                 // transform.Rotate(new Vector3(transform.rotation.x, transform.rotation.y + 180, transform.rotation.z));
                 //do reflect function 
             }
-            else if (currentType == asteroidType.Sharp)
+            else if (currentType == asteroidType.sharp)
             {
-                //take more damage than normal?
-                //We could have the player take more damage, and get the asteroid destroyed. we could freeze the player too even. - S.
+                collision.gameObject.GetComponent<Player>().TakeDamage(100);        
             }
+            
         }
     }
 
