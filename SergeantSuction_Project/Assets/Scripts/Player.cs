@@ -1,23 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
-    private enum PlayerMode { Movement, Combat };
+    private enum SuckGunMode { MOVEMENT, COMBAT };
 
     [SerializeField]
-    private float playerHealth;
+    private float maxHealth = 100.0f;
+    private float health;
+    public float NormalizedHealth
+    {
+        get { return health / maxHealth; }
+    }
+    private bool dying = false;
+    private bool canMove = true;
 
     [SerializeField]
-    private PlayerMode currentMode;
+    private SuckGunMode currentMode;
     [SerializeField]
     private GameObject playerCamera;
     [SerializeField]
     private float cameraDistance = 5f;
 
-    //Movement Variables
+    [Header("Movement")]
     [SerializeField]
     private float maxForce = 25f;
     [SerializeField]
@@ -33,20 +41,20 @@ public class Player : MonoBehaviour
 
     private float currentForce = 0.0f;
 
-    //bounce mechanic variables
+    [Header("Goo Bounce")]
     public bool Bounced = false;
     public Vector3 BounceVector = Vector3.zero;
 
-    //Combat/Suction Variables
+    [Header("Suck Gun Parameters")]
     private Transform fireLocation;
 
     [SerializeField]
     private GameObject projectilePrefab;
 
     private float maxAmmo = 10f;
-    private float currentAmmo = 0f;
+    private int ammo = 0;               //This was previously a float but it is now an int because ammunition is a discrete value.
 
-    [SerializeField]
+    [SerializeField]                        //REMOVE
     private float respawnDelay = 2.0f;
 
     public GameObject respawnLocation;
@@ -54,27 +62,95 @@ public class Player : MonoBehaviour
     private Renderer playerRenderer;
     private Color originalColor;
 
+    [Header("Sound")]
+    [SerializeField]
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip deathClip;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         playerLocation = GetComponent<Transform>();
         fireLocation = transform.Find("FireLocation");
         playerRenderer = GetComponent<Renderer>();
-        originalColor = playerRenderer.material.color;
-        playerHealth = 100.0f;
+        //originalColor = playerRenderer.material.color;    //we won't be using this soon.
+        health = maxHealth;
+        ammo = 0;
+    }
+
+    public void Reset()
+    {
+        health = maxHealth;
+        dying = false;
+        canMove = true;
     }
 
     void Update()
     {
-        //uses the same basic move camera script that the original was
-        MoveCamera();
-        UpdateMode();
+        if(!dying)
+        {
+            UpdateHealth();
+        }
+
+        if (canMove)
+        {
+            UpdateCamera();
+            UpdatePlayer();    //We may need the space of the update function so we will choose to create functions
+        }
+        
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (currentMode == SuckGunMode.MOVEMENT)
+        {
+            if (other.CompareTag("AmmoRock"))
+            {
+                if (ammo < maxAmmo)
+                {
+                    other.gameObject.SetActive(false);
+                    ammo++;
+                }
+            }
+        }
+    }
+
+    private void UpdateCamera()
+    {
+        playerCamera.transform.position = new Vector3(playerLocation.position.x, cameraDistance, playerLocation.position.z);
+    }
+
+    private void UpdateSuckGunMode()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (currentMode == SuckGunMode.MOVEMENT)
+            {
+                currentMode = SuckGunMode.COMBAT;
+            }
+            else if (currentMode == SuckGunMode.COMBAT)
+            {
+                currentMode = SuckGunMode.MOVEMENT;
+            }
+
+        }
+    }
+    private void UpdatePlayer()
+    {
+        //We call to update the suck gun mode
+        UpdateSuckGunMode();
+
         //tracking the mouse position in relation to the player
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
         float rayLength;
 
-        //
         if (groundPlane.Raycast(cameraRay, out rayLength))
         {
             Vector3 lookDir = cameraRay.GetPoint(rayLength);
@@ -90,116 +166,58 @@ public class Player : MonoBehaviour
 
             switch (currentMode)
             {
-                case PlayerMode.Movement:
+                case SuckGunMode.MOVEMENT:
 
                     if (Input.GetMouseButtonDown(0))
                     {
-                        StartCharge();
+                        ChargeUp();
                     }
 
                     if (Input.GetMouseButtonUp(0))
                     {
-                        EndCharge();
-                        float chargeTimeTotal = Time.time - chargeStartTime;
-                        float normalizedCharge = Mathf.Clamp01(chargeTimeTotal / chargeTime);
-                        float force = Mathf.Lerp(0f, maxForce, normalizedCharge);
-                        currentForce = force;
-                        Vector3 oppositeDir = -Direction;
-                        rb.AddForce(oppositeDir * force * forceMultiplier, ForceMode.Impulse);
+                        ChargeRelease(Direction);
                     }
-
-                    
-                    if (Bounced == true)
-                    {
-                        Ray bounceRay = new Ray(BounceVector, transform.position - BounceVector);
-
-                        if (groundPlane.Raycast(bounceRay, out rayLength))
-                        {
-
-                            Vector3 pointToLook = bounceRay.GetPoint(rayLength);
-                            Debug.DrawLine(bounceRay.origin, pointToLook, Color.cyan);
-
-                            lookAng = Mathf.Atan2(pointToLook.z, pointToLook.x) * Mathf.Rad2Deg;
-                            playerLocation.rotation = Quaternion.Euler(0f, lookAng, 0f);
-                            rb.rotation = Quaternion.Euler(0f, lookAng, 0f);
-
-                            lookDir.y = transform.position.y;
-                            Direction = (lookDir - transform.position).normalized;
-                            rb.AddForce(Direction * currentForce * forceMultiplier, ForceMode.Impulse);
-                        }
-                        Bounced = false;
-                    }
-                    
-
                     break;
-                case PlayerMode.Combat:
 
-                    if(Input.GetMouseButtonDown(0))
+                case SuckGunMode.COMBAT:
+
+                    if (Input.GetMouseButtonDown(0))
                     {
                         FireProjectile();
                     }
                     break;
             }
+            
+            //Handle the goo bounce
+            if (Bounced == true)
+            {
+                Ray bounceRay = new Ray(BounceVector, transform.position - BounceVector);
+
+                if (groundPlane.Raycast(bounceRay, out rayLength))
+                {
+                    Vector3 pointToLook = bounceRay.GetPoint(rayLength);
+                    Debug.DrawLine(bounceRay.origin, pointToLook, Color.cyan);
+
+                    lookAng = Mathf.Atan2(pointToLook.z, pointToLook.x) * Mathf.Rad2Deg;
+                    playerLocation.rotation = Quaternion.Euler(0f, lookAng, 0f);
+                    rb.rotation = Quaternion.Euler(0f, lookAng, 0f);
+
+                    lookDir.y = transform.position.y;
+                    Direction = (lookDir - transform.position).normalized;
+                    rb.AddForce(Direction * currentForce * forceMultiplier, ForceMode.Impulse);
+                }
+                Bounced = false;
+            }
 
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxForce);
         }
+
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-  
-    }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (currentMode == PlayerMode.Movement)
-        {
-            if (other.CompareTag("AmmoRock"))
-            {
-                if (currentAmmo < maxAmmo)
-                {
-                    other.gameObject.SetActive(false);
-                    currentAmmo++;
-                }
-            }
-        }  
-    }
-
-    private void MoveCamera()
-    {
-        playerCamera.transform.position = new Vector3(playerLocation.position.x, cameraDistance, playerLocation.position.z);
-    }
-
-    private void StartCharge()
-    {
-        isCharging = true;
-        chargeStartTime = Time.time;
-    }
-
-    private void EndCharge()
-    {
-        isCharging = false;
-    }
-
-    private void UpdateMode()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (currentMode == PlayerMode.Movement)
-            {
-                currentMode = PlayerMode.Combat;
-            }
-            else if (currentMode == PlayerMode.Combat)
-            {
-                currentMode = PlayerMode.Movement;
-            }
-            
-        }
-    }
-
+    //Suck Gun Functions
     private void FireProjectile()
     {
-        if(projectilePrefab && currentAmmo > 0)
+        if (projectilePrefab && ammo > 0)
         {
             Vector3 direction = transform.forward;
             direction.y = 0f;
@@ -209,55 +227,78 @@ public class Player : MonoBehaviour
             Projectile projScript = projectileGo.GetComponent<Projectile>();
             projectileGo.SetActive(true);
             projScript.Fire(direction);
-            currentAmmo--;
+            ammo--;
         }
+    }
+    
+    private void ChargeUp()
+    {
+        //Start the charge
+        isCharging = true;
+        chargeStartTime = Time.time;
+    }
+    private void ChargeRelease(Vector3 Direction)
+    {
+        //End the charge and reset the gauge
+        isCharging = false;
+        chargeStartTime = 0f;
+
+        float chargeTimeTotal = Time.time - chargeStartTime;
+        float normalizedCharge = Mathf.Clamp01(chargeTimeTotal / chargeTime);
+        float force = Mathf.Lerp(0f, maxForce, normalizedCharge);
+        currentForce = force;
+        Vector3 oppositeDir = -Direction;
+        rb.AddForce(oppositeDir * force * forceMultiplier, ForceMode.Impulse);
     }
 
     public void TakeDamage(int dmgAmount)
     {
-        playerHealth -= dmgAmount;
+        health -= dmgAmount;
 
-        StartCoroutine("FlashRed");
+        //StartCoroutine("FlashRed");
 
-        if(playerHealth <= 0)
+        if (health <= 0)
         {
-            DestroyPlayer();
+            Death();
         }
     }
 
-    public void DestroyPlayer()
+    private void UpdateHealth()
     {
-        SetPlayerVisibility(false);
-        StartCoroutine("Respawn");
-    }
-
-    IEnumerator FlashRed()
-    {
-        playerRenderer.material.color = Color.red;
-        yield return new WaitForSeconds(0.5f);
-        playerRenderer.material.color = originalColor;
-    }
-
-    IEnumerator Respawn()
-    {
-        yield return new WaitForSeconds(respawnDelay);
-        SetPlayerVisibility(true);
-        playerLocation.position = respawnLocation.transform.position;
-    }
-
-    private void SetPlayerVisibility(bool visible)
-    {
-        if(playerRenderer != null)
+        //Death Coroutine
+        if (health <= 0)
         {
-            playerRenderer.enabled = visible;
+            StartCoroutine("Death");
         }
+
+        //Health Regen
+        if (health < 100f)
+        {
+            health += 2.5f * Time.deltaTime;
+            health = Mathf.Clamp(health, 0, maxHealth);
+        }
+    }
+
+    //Death
+    private IEnumerator Death()
+    {
+        audioSource.PlayOneShot(deathClip);
+        dying = true;
+        canMove = false;
+        //animator.SetTrigger("Death");
+
+        yield return new WaitForSeconds(3f);
+
+        //display game over menu
+        //press A to respawn
+
+        GameManager.Instance.PlayerDeathEvent();
     }
 
     private void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 200, 40), "Health " + playerHealth);
-        GUI.Label(new Rect(10, 30, 400, 40), "Ammo " + currentAmmo);
+        GUI.Label(new Rect(10, 10, 200, 40), "Health " + health);
+        GUI.Label(new Rect(10, 30, 400, 40), "Ammo " + ammo);
         GUI.Label(new Rect(10, 50, 600, 40), "Mode " + currentMode);
     }
-
 }

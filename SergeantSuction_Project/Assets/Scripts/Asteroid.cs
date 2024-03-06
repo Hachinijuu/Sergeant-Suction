@@ -41,11 +41,11 @@ public class Asteroid : MonoBehaviour
             }
             else if (currentType == asteroidType.Sharp)
             {
-                collision.gameObject.GetComponent<Player>().TakeDamage(99);        
+                collision.gameObject.GetComponent<Player>().TakeDamage(100); 
+                //We wanna kill the player here
+
             }
             
         }
     }
-
-
 }
