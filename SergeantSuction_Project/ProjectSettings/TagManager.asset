@@ -8,11 +8,14 @@ TagManager:
   - Normal
   - Sharp
   - AmmoRock
+  - PlayerBullet
+  - EventTrigger
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Events
   - Water
   - UI
   - 

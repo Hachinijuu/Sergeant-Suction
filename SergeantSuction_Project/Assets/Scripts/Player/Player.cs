@@ -127,9 +127,15 @@ public class Player : MonoBehaviour
             {
                 if (ammo < maxAmmo)
                 {
-                    //other.gameObject.SetActive(false);
+                    other.gameObject.SetActive(false);
+                    ammo++;
                 }
             }
+        }
+
+        if (other.CompareTag("EnemyBullet"))
+        {
+            TakeDamage(10);
         }
     }
 

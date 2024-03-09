@@ -68,9 +68,6 @@ public class GameManager : MonoBehaviour
         //Every time the game starts, the player will be trasported to the last respawn point
         sergeantGO.transform.position = respawnPoint.position;
         sergeantGO.transform.rotation = respawnPoint.rotation;
-
-
-
         
     }
 
