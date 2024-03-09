@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class AsteroidSpawner : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     [SerializeField]
     private Transform spawner;
@@ -27,15 +27,15 @@ public class AsteroidSpawner : MonoBehaviour
 
     private float deployCount = 0f;
 
-    private static AsteroidSpawner instance;
-    public static AsteroidSpawner Instance
+    private static Spawner instance;
+    public static Spawner Instance
     {
         get
         {
             if (instance == null)
             {
                 //we refer to this current instance
-                instance = FindObjectOfType<AsteroidSpawner>();
+                instance = FindObjectOfType<Spawner>();
             }
 
             return instance;
@@ -57,7 +57,7 @@ public class AsteroidSpawner : MonoBehaviour
             spawnerMat.color = Color.yellow;
             Deploy();
         }
-        else if (!canSpawn || currentObjects >= maxObjects)
+        else if (!canSpawn || currentObjects == maxObjects)
         {
             spawnerMat.color = Color.red;
             return;

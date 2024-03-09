@@ -7,7 +7,7 @@ public class ObjectPoolManager : MonoBehaviour
 
     public enum PoolTypes
     {
-        ammoAsteroid
+        ammoAsteroid, playerBullet, enemyBullet
     }
 
     private static ObjectPoolManager instance;

@@ -8,6 +8,11 @@ public class Player : MonoBehaviour
 {
     private enum SuckGunMode { MOVEMENT, COMBAT };
 
+    [Header("Dev Menu")]
+    [SerializeField]
+    private bool devMenu = false;
+
+    [Header("HP")]
     [SerializeField]
     private float maxHealth = 100.0f;
     private float health;
@@ -24,12 +29,31 @@ public class Player : MonoBehaviour
     private bool dying = false;
     private bool canMove = true;
 
+    [Header("Suck Gun")]
     [SerializeField]
     private SuckGunMode currentMode;
     [SerializeField]
     private GameObject playerCamera;
     [SerializeField]
     private float cameraDistance = 5f;
+    [SerializeField]
+    private Transform fireLocation;
+
+    [SerializeField]
+    private GameObject projectilePrefab;
+    [SerializeField]
+    private Material combatModeMat;
+    [SerializeField]
+    private Material movementModeMat;
+    [SerializeField]
+    private Renderer SGMouth;
+    [SerializeField]
+    private Renderer SGRing;
+    [SerializeField]
+    private Renderer SergeantScreen;
+    [SerializeField]
+    private int maxAmmo = 10;
+    private int ammo = 0;
 
     [Header("Movement")]
     [SerializeField]
@@ -51,20 +75,13 @@ public class Player : MonoBehaviour
     public bool Bounced = false;
     public Vector3 BounceVector = Vector3.zero;
 
-    [Header("Suck Gun Parameters")]
-    private Transform fireLocation;
-
-    [SerializeField]
-    private GameObject projectilePrefab;
-
-    private int maxAmmo = 10;
-    private int ammo = 0;
-
     [Header("Sound")]
     [SerializeField]
     private AudioSource audioSource;
     [SerializeField]
     private AudioClip deathClip;
+    [SerializeField]
+    private AudioClip SGModeSwitch;
 
     private void Start()
     {
@@ -128,10 +145,19 @@ public class Player : MonoBehaviour
             if (currentMode == SuckGunMode.MOVEMENT)
             {
                 currentMode = SuckGunMode.COMBAT;
+                //Orange Material
+                SGMouth.material = combatModeMat;
+                SGRing.material = combatModeMat;
+                SergeantScreen.material = combatModeMat;
+
             }
             else if (currentMode == SuckGunMode.COMBAT)
             {
                 currentMode = SuckGunMode.MOVEMENT;
+                //Blue material
+                SGMouth.material = movementModeMat;
+                SGRing.material = movementModeMat;
+                SergeantScreen.material = movementModeMat;
             }
 
         }
@@ -155,7 +181,6 @@ public class Player : MonoBehaviour
             Quaternion lookRotation = Quaternion.LookRotation(Direction);
             Vector3 lookAngles = lookRotation.eulerAngles;
 
-            float lookAng = Mathf.Atan2(lookDir.x, lookDir.z) * Mathf.Rad2Deg;
             playerLocation.rotation = Quaternion.Euler(0f, lookAngles.y, 0f);
             rb.rotation = Quaternion.Euler(0f, lookAngles.y, 0f);
 
@@ -186,21 +211,7 @@ public class Player : MonoBehaviour
             //Handle the goo bounce
             if (Bounced == true)
             {
-                Ray bounceRay = new Ray(BounceVector, transform.position - BounceVector);
-
-                if (groundPlane.Raycast(bounceRay, out rayLength))
-                {
-                    Vector3 pointToLook = bounceRay.GetPoint(rayLength);
-                    Debug.DrawLine(bounceRay.origin, pointToLook, Color.cyan);
-
-                    lookAng = Mathf.Atan2(pointToLook.z, pointToLook.x) * Mathf.Rad2Deg;
-                    playerLocation.rotation = Quaternion.Euler(0f, lookAng, 0f);
-                    rb.rotation = Quaternion.Euler(0f, lookAng, 0f);
-
-                    lookDir.y = transform.position.y;
-                    Direction = (lookDir - transform.position).normalized;
-                    rb.AddForce(Direction * currentForce * forceMultiplier, ForceMode.Impulse);
-                }
+                rb.AddForce(Direction*currentForce*forceMultiplier, ForceMode.Impulse);
                 Bounced = false;
             }
 
@@ -218,7 +229,7 @@ public class Player : MonoBehaviour
             direction.y = 0f;
             direction.Normalize();
 
-            GameObject projectileGO = GameObject.Instantiate(projectilePrefab, fireLocation.position, Quaternion.identity);
+            GameObject projectileGO = ObjectPoolManager.Instance.GetPooledObject(ObjectPoolManager.PoolTypes.playerBullet);
             Projectile projScript = projectileGO.GetComponent<Projectile>();
             projectileGO.SetActive(true);
 
@@ -302,13 +313,16 @@ public class Player : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 200, 40), "Health " + health);
-        GUI.Label(new Rect(10, 30, 400, 40), "Ammo " + ammo);
-        GUI.Label(new Rect(10, 50, 600, 40), "Mode " + currentMode);
-
-        if(GUI.Button(new Rect(10, 70, 200, 40), "Full Ammo"))
+        if(devMenu)
         {
-            ammo = maxAmmo;
+            GUI.Label(new Rect(10, 10, 200, 40), "Health " + health);
+            GUI.Label(new Rect(10, 30, 400, 40), "Ammo " + ammo);
+            GUI.Label(new Rect(10, 50, 600, 40), "Mode " + currentMode);
+
+            if (GUI.Button(new Rect(10, 70, 200, 40), "Full Ammo"))
+            {
+                ammo = maxAmmo;
+            }
         }
     }
 }

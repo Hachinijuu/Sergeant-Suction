@@ -11,6 +11,12 @@ public class ObjectPool: MonoBehaviour
     [SerializeField]
     private bool willGrow = true;
 
+    private bool emptyPool = false;
+    public bool EmptyPool
+    {
+        get { return emptyPool; }
+    }
+
     public List<GameObject> pooledObjects;
 
     private void Start()
@@ -45,6 +51,7 @@ public class ObjectPool: MonoBehaviour
         }
 
         Debug.LogError("Object Pool for " + pooledObject.name + " is not big enough");
+        emptyPool = true;
 
         return null;
     }

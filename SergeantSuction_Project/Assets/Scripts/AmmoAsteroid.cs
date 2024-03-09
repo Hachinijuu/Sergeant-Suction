@@ -23,7 +23,10 @@ public class AmmoAsteroid : MonoBehaviour
     void Update()
     {
         //transform.Translate(spawnDirection * speed * Time.deltaTime, Space.World);
-        rb.AddForce(spawnDirection * speed * Time.deltaTime, ForceMode.VelocityChange);         //Until a certain velocity is reached the objects will keep accelerating. we want it to stop at a certain point and float around.
+        if(rb.velocity.magnitude < speed)
+        {
+            rb.AddForce(spawnDirection * speed * Time.deltaTime, ForceMode.VelocityChange);
+        }
     }
 
     private void OnEnable()
@@ -39,7 +42,7 @@ public class AmmoAsteroid : MonoBehaviour
 
     private IEnumerator Deploy()
     {
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(4f);
         
         gameObject.SetActive(false);
 

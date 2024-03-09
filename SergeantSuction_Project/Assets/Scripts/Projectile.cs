@@ -23,6 +23,7 @@ public class Projectile : MonoBehaviour
         StopAllCoroutines();
     }
 
+    // Update is called once per frame
     void Update()
     {
         transform.Translate(fireDirection * speed * Time.deltaTime, Space.World);
@@ -39,18 +40,9 @@ public class Projectile : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnColliderEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-
-        if (other.CompareTag("Enemy"))
-        {
-            //damage them?
-            Destroy(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
+        //Uhh
     }
 }
+
