@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.UI;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,10 +27,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //Variables
     [SerializeField]
-    private MenuManager menuManager;
+    bool devMenu = false;
 
+    [Header("Menus")]
+    [SerializeField]
+    private GameObject pauseMenu;
+    private GameObject gameOverScreen;
+    private GameObject winScreen;
+
+    [Header("Player")]
     [SerializeField]
     private Player sergeant;
 
@@ -40,10 +47,32 @@ public class GameManager : MonoBehaviour
         get { return sergeantGO; }
     }
 
+
+    [Header("Respawn Points")]
     [SerializeField]
+    private Transform startRespawn;
+
+    [SerializeField]
+    private Transform midwayRespawn;
+    [SerializeField]
+    private Transform endRespawn;
+    //These respawn locations will be assigned into the GM and then flags will determine what respawnPoint equals to.
     private Transform respawnPoint;
 
     //Code
+    private void Awake()
+    {
+        //Remove
+        respawnPoint = startRespawn;
+
+        //Every time the game starts, the player will be trasported to the last respawn point
+        sergeantGO.transform.position = respawnPoint.position;
+        sergeantGO.transform.rotation = respawnPoint.rotation;
+
+
+
+        
+    }
 
     //Code for respawning the player
     public void PlayerDeathEvent()
@@ -62,6 +91,4 @@ public class GameManager : MonoBehaviour
         //pauseMenu.CanPause = true;
         //gameOverScreen.gameObject.SetActive(false);
     }
-
-
 }

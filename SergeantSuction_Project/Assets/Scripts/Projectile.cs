@@ -5,42 +5,44 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField]
-    protected float speed = 5f;
+    private float speed = 5f;
 
-    [SerializeField]
-    private float lifeTime = 5f;
-
-    protected Vector3 direction;
-    private Rigidbody rb;
-
-    private void Awake()
+    private Vector3 fireDirection;
+    public Vector3 FireDirection
     {
-        rb = GetComponent<Rigidbody>();   
+        set { fireDirection = value; }
+    }
+    // Use this for initialization
+    private void OnEnable()
+    {
+        StartCoroutine("SelfDestruct");
     }
 
-    private void Start()
+    private void OnDisable()
     {
-        //destry bullet after lifetime (to avoid wasting memory etc... )
-        Destroy(gameObject, lifeTime);
+        StopAllCoroutines();
     }
 
-    private void FixedUpdate()
+    void Update()
     {
-        if(rb != null)
-        {
-            rb.AddForce(direction.normalized * speed, ForceMode.Impulse);
-        }
+        transform.Translate(fireDirection * speed * Time.deltaTime, Space.World);
     }
 
-    public void Fire(Vector3 dir)
+    private IEnumerator SelfDestruct()
     {
-        //set the direction of the bullet
-        direction = dir;
+        yield return new WaitForSeconds(10);
+        gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        gameObject.SetActive(false);
     }
 
     private void OnColliderEnter(Collider other)
     {
-        if(other.CompareTag("Enemy"))
+
+        if (other.CompareTag("Enemy"))
         {
             //damage them?
             Destroy(gameObject);
@@ -49,5 +51,6 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
     }
 }

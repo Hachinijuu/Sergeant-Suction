@@ -11,6 +11,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float maxHealth = 100.0f;
     private float health;
+    [SerializeField]
+    private float respawnDelay = 2.0f;
+    [SerializeField]
+    private float timeToRegen = 5.0f;
+    [SerializeField]
+    private float regenAmount = 2.5f;
     public float NormalizedHealth
     {
         get { return health / maxHealth; }
@@ -51,16 +57,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject projectilePrefab;
 
-    private float maxAmmo = 10f;
-    private int ammo = 0;               //This was previously a float but it is now an int because ammunition is a discrete value.
-
-    [SerializeField]                        //REMOVE
-    private float respawnDelay = 2.0f;
-
-    public GameObject respawnLocation;
-
-    private Renderer playerRenderer;
-    private Color originalColor;
+    private int maxAmmo = 10;
+    private int ammo = 0;
 
     [Header("Sound")]
     [SerializeField]
@@ -72,8 +70,6 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerLocation = GetComponent<Transform>();
-        fireLocation = transform.Find("FireLocation");
-        playerRenderer = GetComponent<Renderer>();
         //originalColor = playerRenderer.material.color;    //we won't be using this soon.
         health = maxHealth;
         ammo = 0;
@@ -114,8 +110,7 @@ public class Player : MonoBehaviour
             {
                 if (ammo < maxAmmo)
                 {
-                    other.gameObject.SetActive(false);
-                    ammo++;
+                    //other.gameObject.SetActive(false);
                 }
             }
         }
@@ -223,10 +218,12 @@ public class Player : MonoBehaviour
             direction.y = 0f;
             direction.Normalize();
 
-            GameObject projectileGo = GameObject.Instantiate(projectilePrefab, fireLocation.position, Quaternion.identity);
-            Projectile projScript = projectileGo.GetComponent<Projectile>();
-            projectileGo.SetActive(true);
-            projScript.Fire(direction);
+            GameObject projectileGO = GameObject.Instantiate(projectilePrefab, fireLocation.position, Quaternion.identity);
+            Projectile projScript = projectileGO.GetComponent<Projectile>();
+            projectileGO.SetActive(true);
+
+            projectileGO.transform.position = fireLocation.position;
+            projScript.FireDirection = direction;
             ammo--;
         }
     }
@@ -267,19 +264,19 @@ public class Player : MonoBehaviour
     {
         //Death Coroutine
         if (health <= 0)
-        {
             StartCoroutine("Death");
-        }
-
-        //Health Regen
-        if (health < 100f)
-        {
-            health += 2.5f * Time.deltaTime;
-            health = Mathf.Clamp(health, 0, maxHealth);
-        }
+        else if (health < 100f)
+            StartCoroutine("RegenHealth");
     }
 
-    //Death
+    private IEnumerator RegenHealth()
+    {
+        yield return new WaitForSeconds(timeToRegen);
+
+        health += regenAmount;
+        health = Mathf.Clamp(health, 0, maxHealth);
+    }
+
     private IEnumerator Death()
     {
         audioSource.PlayOneShot(deathClip);
@@ -287,12 +284,20 @@ public class Player : MonoBehaviour
         canMove = false;
         //animator.SetTrigger("Death");
 
-        yield return new WaitForSeconds(3f);
-
-        //display game over menu
-        //press A to respawn
-
+        yield return new WaitForSeconds(respawnDelay);
         GameManager.Instance.PlayerDeathEvent();
+    }
+
+    public void UpdateAmmo()
+    {
+        if (health <= 0)
+            ammo = 0;       //Ammo resets on death
+        
+    }
+
+    public void AddAmmo(int amount)
+    {
+        ammo += amount;
     }
 
     private void OnGUI()
@@ -300,5 +305,10 @@ public class Player : MonoBehaviour
         GUI.Label(new Rect(10, 10, 200, 40), "Health " + health);
         GUI.Label(new Rect(10, 30, 400, 40), "Ammo " + ammo);
         GUI.Label(new Rect(10, 50, 600, 40), "Mode " + currentMode);
+
+        if(GUI.Button(new Rect(10, 70, 200, 40), "Full Ammo"))
+        {
+            ammo = maxAmmo;
+        }
     }
 }

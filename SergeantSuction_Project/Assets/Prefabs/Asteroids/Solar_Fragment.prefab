@@ -102,11 +102,11 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: -210561633766615646, guid: 6b1588fe7989aba43b2a912219fe35cf, type: 3}
+  m_Mesh: {fileID: -2720089011862901511, guid: 8a32b0df161746e4aaba8428f102932a, type: 3}
 --- !u!114 &407541437923483128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,4 +119,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4605a412981fc448d1b977eb0aa1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentType: 1
+  currentType: 3
