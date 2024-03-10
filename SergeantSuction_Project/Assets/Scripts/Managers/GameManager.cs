@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.UI;
 using Unity.VisualScripting;
+using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -32,9 +35,16 @@ public class GameManager : MonoBehaviour
 
     [Header("Menus")]
     [SerializeField]
-    private GameObject pauseMenu;
-    private GameObject gameOverScreen;
-    private GameObject winScreen;
+    private GameObject loadingScreen;
+
+    /*
+    [SerializeField]
+    private PauseMenu pauseMenu;
+    [SerializeField]
+    private GameOverScreen gameOverScreen;
+    */
+
+    //private WinScreen winScreen;
 
     [Header("Player")]
     [SerializeField]
@@ -47,11 +57,9 @@ public class GameManager : MonoBehaviour
         get { return sergeantGO; }
     }
 
-
     [Header("Respawn Points")]
     [SerializeField]
     private Transform startRespawn;
-
     [SerializeField]
     private Transform midwayRespawn;
     [SerializeField]
@@ -59,32 +67,30 @@ public class GameManager : MonoBehaviour
     //These respawn locations will be assigned into the GM and then flags will determine what respawnPoint equals to.
     private Transform respawnPoint;
 
+    [Header("Audio")]
+    private AudioMixer audioManager;
+
     //Code
     private void Awake()
     {
-        //Remove
-        respawnPoint = startRespawn;
-
-        //Every time the game starts, the player will be trasported to the last respawn point
-        sergeantGO.transform.position = respawnPoint.position;
-        sergeantGO.transform.rotation = respawnPoint.rotation;
         
     }
-
     //Code for respawning the player
     public void PlayerDeathEvent()
     {
-        //MenuManager.Instance.ShowDeathScreen();
+        //Show the "You've Died" screen
         PlayerRespawn();
     }
 
     public void PlayerRespawn()
     {
-        sergeantGO.transform.position = respawnPoint.position;
-        sergeantGO.transform.rotation = respawnPoint.rotation;
+        sergeant.CanMove = false;
+        sergeantGO.transform.position = startRespawn.position;
+        sergeantGO.transform.rotation = startRespawn.rotation;
+        
         sergeant.Reset();
         //LevelManager.Instance.Reset();
-        sergeantGO.SetActive(true);
+        sergeant.gameObject.SetActive(true);
         //pauseMenu.CanPause = true;
         //gameOverScreen.gameObject.SetActive(false);
     }

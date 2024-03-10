@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 3df3cbac96298f0468f0307c02f24470, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   devMenu: 1
-  pauseMenu: {fileID: 0}
+  loadingScreen: {fileID: 0}
   sergeant: {fileID: 2482364808105741275}
   sergeantGO: {fileID: 7897451047911647859}
   startRespawn: {fileID: 1216846843}
@@ -283,7 +283,7 @@ Transform:
   m_GameObject: {fileID: 153711727}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5724.9565, y: 6, z: -66.775665}
+  m_LocalPosition: {x: 0, y: 100, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -862,10 +862,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 963194228}
+  - {fileID: 1216846843}
   - {fileID: 153711729}
   - {fileID: 1792536832}
   - {fileID: 1871795172}
   - {fileID: 5050161515502437048}
   - {fileID: 517973157}
   - {fileID: 1744750851}
-  - {fileID: 1216846843}

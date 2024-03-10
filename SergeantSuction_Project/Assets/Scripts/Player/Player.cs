@@ -28,6 +28,11 @@ public class Player : MonoBehaviour
     }
     private bool dying = false;
     private bool canMove = true;
+    public bool CanMove
+    {
+        get { return canMove; }
+        set { canMove = value; }
+    }
 
     [Header("Suck Gun")]
     [SerializeField]
@@ -83,7 +88,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip SGModeSwitch;
 
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         playerLocation = GetComponent<Transform>();
@@ -101,15 +106,15 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if(!dying)
-        {
-            UpdateHealth();
-        }
-
         if (canMove)
         {
             UpdateCamera();
             UpdatePlayer();    //We may need the space of the update function so we will choose to create functions
+
+            if (!dying)
+            {
+                UpdateHealth();
+            }
         }
         
     }
@@ -268,8 +273,6 @@ public class Player : MonoBehaviour
     public void TakeDamage(int dmgAmount)
     {
         health -= dmgAmount;
-
-        //StartCoroutine("FlashRed");
 
         if (health <= 0)
         {

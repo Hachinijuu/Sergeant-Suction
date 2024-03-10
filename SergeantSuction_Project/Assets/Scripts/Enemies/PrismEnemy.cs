@@ -46,45 +46,49 @@ public class PrismEnemy : MonoBehaviour
     [SerializeField]
     private int health = 20;
 
+
+    private bool hunting = false;
+
     private void Update()
     {
         Player player = FindObjectOfType<Player>();
         //We want the speaker to always look at the player
+        //Always keep it on the same y level as the player
+        transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
 
-        
         if (health <= 0)
         {
-            Death(); 
+            Death();
         }
-        if (player)
+        if (player && hunting)
         {
             transform.LookAt(player.transform);
             switch (currentMode)
             {
                 case enemyMode.PHYSICAL:
-                    Fire();
+                    //Fire();
                     if (circling)
                     {
                         transform.Translate(Vector3.right * Time.deltaTime * movementSpeed);
                     }
                     //distance to player check.
-                    if (Vector3.Distance(player.transform.position, transform.position) > followingDistance)
+                    if (Vector3.Distance(player.transform.position, transform.position) >= followingDistance)
                     {
                         transform.Translate(Vector3.forward * Time.deltaTime * movementSpeed);
                     }
-                    else if (Vector3.Distance(player.transform.position, transform.position) < followingDistance)
+                    else if (Vector3.Distance(player.transform.position, transform.position) <= followingDistance)
                     {
                         transform.Translate(Vector3.forward * Time.deltaTime * movementSpeed * -1);
                     }
                     break;
                 case enemyMode.RANGED:
-                    if (Vector3.Distance(player.transform.position, transform.position) > followingDistance)
+                    if (Vector3.Distance(player.transform.position, transform.position) >= followingDistance)
                     {
                         //moves faster when not firing?
                         transform.Translate(Vector3.forward * Time.deltaTime * movementSpeed * 2);
                         Fire();
                     }
-                    else if (Vector3.Distance(player.transform.position, transform.position) > followingDistance)
+                    else if (Vector3.Distance(player.transform.position, transform.position) >= followingDistance)
                     {
                         Explode();
                     }
@@ -116,7 +120,7 @@ public class PrismEnemy : MonoBehaviour
         }
         if (other.CompareTag("PlayerBullet") || other.CompareTag("Player"))
         {
-            if(dieInstantly)
+            if (dieInstantly)
             {
                 health = 0;
             }
@@ -124,6 +128,10 @@ public class PrismEnemy : MonoBehaviour
             {
                 health -= 5;
             }
+        }
+        if (other.CompareTag("EnemyTrigger"))
+        {
+            hunting = true;
         }
     }
 
@@ -143,12 +151,12 @@ public class PrismEnemy : MonoBehaviour
         eBullet.FireDirection = fireDirection;
         eBulletGO.SetActive(true);
     }
-    
+
     private void Fire()
     {
         fireCount += Time.deltaTime;
 
-        if (fireCount>=fireRate)
+        if (fireCount >= fireRate)
         {
             fireCount = 0f;
             FireBullet();
