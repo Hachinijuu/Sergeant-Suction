@@ -222,7 +222,7 @@ public class Player : MonoBehaviour
             //Handle the goo bounce
             if (Bounced == true)
             {
-                rb.AddForce(Direction*currentForce*forceMultiplier, ForceMode.Impulse);
+                rb.AddForce(-BounceVector, ForceMode.Impulse);
                 Bounced = false;
             }
 
