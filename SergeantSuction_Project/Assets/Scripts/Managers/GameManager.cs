@@ -36,13 +36,11 @@ public class GameManager : MonoBehaviour
     [Header("Menus")]
     [SerializeField]
     private GameObject loadingScreen;
-
-    /*
     [SerializeField]
     private PauseMenu pauseMenu;
-    [SerializeField]
-    private GameOverScreen gameOverScreen;
-    */
+    //[SerializeField]
+    //private GameOverScreen gameOverScreen;
+    
 
     //private WinScreen winScreen;
 
@@ -70,6 +68,14 @@ public class GameManager : MonoBehaviour
     [Header("Audio")]
     private AudioMixer audioManager;
 
+    [SerializeField]
+    private string[] levelNames;
+    [SerializeField]
+    private string mainMenuName;
+
+    private int currentLevel = 0;
+    private string currentLevelName;
+
     //Code
     private void Awake()
     {
@@ -93,5 +99,84 @@ public class GameManager : MonoBehaviour
         sergeant.gameObject.SetActive(true);
         //pauseMenu.CanPause = true;
         //gameOverScreen.gameObject.SetActive(false);
+    }
+
+    private IEnumerator LoadLevel(string levelName)
+    {
+        sergeantGO.SetActive(false);
+
+        loadingScreen.gameObject.SetActive(true);  // Turn on loading screen
+
+        yield return new WaitForSeconds(.25f);
+
+        if ((!string.IsNullOrEmpty(currentLevelName)))
+        {
+            //yield return SoundManager.Instance.StartCoroutine("UnLoadLevel");
+
+
+            AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(currentLevelName);
+
+            while (!asyncUnload.isDone)
+            {
+                yield return null;
+            }
+        }
+
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
+        while (!asyncLoad.isDone)
+        {
+            // Update the loading slider to match the progress of this process. 
+            //loadingScreen.UpdateSlider(asyncLoad.progress);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(.75f);
+
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
+        //SoundManager.LevelLoadComplete();
+
+        //if (LevelManager.Instance && (LevelManager.Instance.GetSpawnPoint() != null))
+        //{
+        //PlayerRespawn();
+        //}
+
+        PlayerRespawn();
+
+        currentLevelName = levelName;
+
+        loadingScreen.gameObject.SetActive(false);  // Shut off loading screen
+    }
+
+    public void StartNewGame()
+    {
+        currentLevel = 0;
+    }
+
+    public void ContinueGame()
+    {
+
+    }
+
+    public void LevelComplete()
+    {
+        currentLevel++;
+        if (currentLevel < levelNames.Length)
+        {
+            //load level coroutine
+        }
+        else
+        {
+            //can't pause pause menu
+            //victoryScreen.gameObject.SetActive(true);
+        }
+        //SaveGame();
+    }
+
+    public void ReturnToMainMenu()
+    {
+        //pauseMenu.CanPause = false;
+        //gameOverScreen.gameObject.SetActive(false);
+        //victoryScreen.gameObject.SetActive(false);
     }
 }
