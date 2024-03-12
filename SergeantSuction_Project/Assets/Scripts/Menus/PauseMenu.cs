@@ -5,15 +5,14 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField]
-    private GameObject pauseMenuCanvas;
-
-    public bool CanPause
-    {
-        get { return CanPause; }
-        set { CanPause = value; }
-    }
+    private GameObject pauseMenuGO;
 
     private bool canPause = false;
+    public bool CanPause
+    {
+        get { return canPause; }
+        set { canPause = value; }
+    }
 
     bool isPaused = false;
 
@@ -21,15 +20,14 @@ public class PauseMenu : MonoBehaviour
     {
         if(Input.GetButtonDown("Cancel"))
         {
-            if (canPause)
-                Pause(!isPaused);
+            Pause(!isPaused);
         }
     }
 
     private void Pause(bool pause)
     {
         isPaused = pause;
-        pauseMenuCanvas.SetActive(isPaused);
+        pauseMenuGO.SetActive(isPaused);
         if(isPaused)
         {
             Time.timeScale = 0;

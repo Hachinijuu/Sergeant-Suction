@@ -67,6 +67,9 @@ public class Player : MonoBehaviour
     private float chargeTime = 3f;
     [SerializeField]
     private float forceMultiplier = 2f;
+    [SerializeField]
+    private float brakeDampening = 0.5f;
+    private bool isBraking = false;
 
     private Transform playerLocation;
     private Rigidbody rb;
@@ -116,7 +119,14 @@ public class Player : MonoBehaviour
                 UpdateHealth();
             }
         }
-        
+    }
+
+    private void FixedUpdate()
+    {
+        if (!canMove)
+        {
+            rb.velocity = Vector3.zero;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -175,55 +185,74 @@ public class Player : MonoBehaviour
     }
     private void UpdatePlayer()
     {
-        //We call to update the suck gun mode
-        UpdateSuckGunMode();
-
-        //tracking the mouse position in relation to the player
-        Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        float rayLength;
-
-        if (groundPlane.Raycast(cameraRay, out rayLength))
+        if(canMove)
         {
-            Vector3 lookDir = cameraRay.GetPoint(rayLength);
-            lookDir.y = transform.position.y;
-            Vector3 Direction = (lookDir - transform.position).normalized;
+            //We call to update the suck gun mode
+            UpdateSuckGunMode();
 
-            Quaternion lookRotation = Quaternion.LookRotation(Direction);
-            Vector3 lookAngles = lookRotation.eulerAngles;
+            //tracking the mouse position in relation to the player
+            Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+            float rayLength;
 
-            playerLocation.rotation = Quaternion.Euler(0f, lookAngles.y, 0f);
-            rb.rotation = Quaternion.Euler(0f, lookAngles.y, 0f);
-
-            switch (currentMode)
+            if (groundPlane.Raycast(cameraRay, out rayLength))
             {
-                case SuckGunMode.MOVEMENT:
+                Vector3 lookDir = cameraRay.GetPoint(rayLength);
+                lookDir.y = transform.position.y;
+                Vector3 Direction = (lookDir - transform.position).normalized;
 
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        ChargeUp();
-                    }
+                Quaternion lookRotation = Quaternion.LookRotation(Direction);
+                Vector3 lookAngles = lookRotation.eulerAngles;
 
-                    if (Input.GetMouseButtonUp(0))
-                    {
-                        ChargeRelease(Direction);
-                    }
-                    break;
+                playerLocation.rotation = Quaternion.Euler(0f, lookAngles.y, 0f);
+                rb.rotation = Quaternion.Euler(0f, lookAngles.y, 0f);
 
-                case SuckGunMode.COMBAT:
+                switch (currentMode)
+                {
+                    case SuckGunMode.MOVEMENT:
 
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        FireProjectile();
-                    }
-                    break;
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            ChargeUp();
+                        }
+
+                        if (Input.GetMouseButtonUp(0))
+                        {
+                            ChargeRelease(Direction);
+                        }
+
+                        if (Input.GetMouseButtonDown(1))
+                        {
+                            isBraking = true;
+                        }
+
+                        if(Input.GetMouseButtonUp(1))
+                        {
+                            isBraking = false;
+                        }
+                        break;
+
+                    case SuckGunMode.COMBAT:
+
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            FireProjectile();
+                        }
+                        break;
+                }
             }
-            
+
+
             //Handle the goo bounce
             if (Bounced == true)
             {
                 rb.AddForce(-BounceVector, ForceMode.Impulse);
                 Bounced = false;
+            }
+            //handle the braking
+            if (isBraking == true)
+            {
+                rb.AddForce(-rb.velocity * brakeDampening, ForceMode.Force);
             }
 
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxForce);

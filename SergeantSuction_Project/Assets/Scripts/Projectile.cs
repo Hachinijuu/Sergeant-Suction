@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
         if (!player)
         {
             currentMode = ProjectileType.REGULAR;
-            Debug.LogError("No player found");
+            //Debug.LogError("No player found");
         }
     }
     private void OnEnable()

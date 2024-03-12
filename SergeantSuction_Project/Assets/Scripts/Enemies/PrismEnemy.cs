@@ -54,7 +54,7 @@ public class PrismEnemy : MonoBehaviour
         Player player = FindObjectOfType<Player>();
         //We want the speaker to always look at the player
         //Always keep it on the same y level as the player
-        transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 
         if (health <= 0)
         {

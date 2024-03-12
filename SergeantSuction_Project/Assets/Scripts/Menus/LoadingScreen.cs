@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NewBehaviourScript : MonoBehaviour
+public class LoadingScreen : MonoBehaviour
 {
     [SerializeField]
     private Slider loadingSlider;
@@ -15,7 +15,7 @@ public class NewBehaviourScript : MonoBehaviour
 
     public void UpdateSlider(float progress)
     {
-        float progressPerc = Mathf.Clamp01(progress / .9f);
+        float progressPerc = Mathf.Clamp01(progress / 0.9f);
         loadingSlider.value = progressPerc;
     }
 }

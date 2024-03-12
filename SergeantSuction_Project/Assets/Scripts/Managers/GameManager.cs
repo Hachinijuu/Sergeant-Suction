@@ -35,13 +35,13 @@ public class GameManager : MonoBehaviour
 
     [Header("Menus")]
     [SerializeField]
-    private GameObject loadingScreen;
+    private string mainMenuName;
+    [SerializeField]
+    private LoadingScreen loadingScreen;
     [SerializeField]
     private PauseMenu pauseMenu;
-    //[SerializeField]
-    //private GameOverScreen gameOverScreen;
-    
-
+    [SerializeField]
+    private GameOver gameOverScreen;
     //private WinScreen winScreen;
 
     [Header("Player")]
@@ -70,8 +70,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private string[] levelNames;
-    [SerializeField]
-    private string mainMenuName;
 
     private int currentLevel = 0;
     private string currentLevelName;
@@ -79,31 +77,51 @@ public class GameManager : MonoBehaviour
     //Code
     private void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+        sergeant = sergeantGO.GetComponent<Player>();
     }
+
+    private void Update()
+    {
+        if(currentLevelName == mainMenuName)
+        {
+            sergeantGO.SetActive(false);
+        }
+    }
+
+    private void Start()
+    {
+        ReturnToMainMenu();
+        //Load Save Game
+    }
+
     //Code for respawning the player
     public void PlayerDeathEvent()
     {
-        //Show the "You've Died" screen
-        PlayerRespawn();
+        gameOverScreen.gameObject.SetActive(true);
+        pauseMenu.CanPause = false;
     }
 
     public void PlayerRespawn()
     {
-        sergeant.CanMove = false;
-        sergeantGO.transform.position = startRespawn.position;
-        sergeantGO.transform.rotation = startRespawn.rotation;
+        //LevelManager.Instance.Reset();
+        sergeant.transform.position = startRespawn.position;
+        sergeant.transform.rotation = startRespawn.rotation;
         
         sergeant.Reset();
-        //LevelManager.Instance.Reset();
+
         sergeant.gameObject.SetActive(true);
-        //pauseMenu.CanPause = true;
-        //gameOverScreen.gameObject.SetActive(false);
+        pauseMenu.CanPause = true;
+        gameOverScreen.gameObject.SetActive(false);
     }
 
     private IEnumerator LoadLevel(string levelName)
     {
-        sergeantGO.SetActive(false);
+        sergeant.gameObject.SetActive(false);
 
         loadingScreen.gameObject.SetActive(true);  // Turn on loading screen
 
@@ -112,7 +130,6 @@ public class GameManager : MonoBehaviour
         if ((!string.IsNullOrEmpty(currentLevelName)))
         {
             //yield return SoundManager.Instance.StartCoroutine("UnLoadLevel");
-
 
             AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(currentLevelName);
 
@@ -127,7 +144,7 @@ public class GameManager : MonoBehaviour
         while (!asyncLoad.isDone)
         {
             // Update the loading slider to match the progress of this process. 
-            //loadingScreen.UpdateSlider(asyncLoad.progress);
+            loadingScreen.UpdateSlider(asyncLoad.progress);
             yield return null;
         }
 
@@ -142,6 +159,7 @@ public class GameManager : MonoBehaviour
         //}
 
         PlayerRespawn();
+        sergeant.Reset();
 
         currentLevelName = levelName;
 
@@ -151,6 +169,7 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         currentLevel = 0;
+        StartCoroutine(LoadLevel(levelNames[currentLevel]));
     }
 
     public void ContinueGame()
@@ -158,7 +177,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void LevelComplete()
+    public void GameComplete()
     {
         currentLevel++;
         if (currentLevel < levelNames.Length)
@@ -175,8 +194,10 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        //pauseMenu.CanPause = false;
-        //gameOverScreen.gameObject.SetActive(false);
+        StartCoroutine(LoadLevel(mainMenuName));
+        pauseMenu.CanPause = false;
+        sergeantGO.SetActive(false);
+        gameOverScreen.gameObject.SetActive(false);
         //victoryScreen.gameObject.SetActive(false);
     }
 }
