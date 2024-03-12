@@ -111,8 +111,11 @@ public class Player : MonoBehaviour
     {
         if (canMove)
         {
-            UpdateCamera();
-            UpdatePlayer();    //We may need the space of the update function so we will choose to create functions
+            if(playerCamera)
+            {
+                UpdateCamera();
+                UpdatePlayer();    //We may need the space of the update function so we will choose to create functions
+            }
 
             if (!dying)
             {

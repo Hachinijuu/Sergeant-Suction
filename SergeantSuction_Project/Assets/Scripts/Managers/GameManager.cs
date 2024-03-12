@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.UI;
 using Unity.VisualScripting;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;

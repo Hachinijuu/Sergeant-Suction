@@ -2496,7 +2496,7 @@ PrefabInstance:
       objectReference: {fileID: 963194225}
     - target: {fileID: 5794431180856278673, guid: baab5764303116c4495be38275de8a63, type: 3}
       propertyPath: brakeDampening
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7035083790815246113, guid: baab5764303116c4495be38275de8a63, type: 3}
       propertyPath: m_LocalPosition.x
