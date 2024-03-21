@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using System.IO;
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class GameManager : MonoBehaviour
 {
@@ -65,7 +67,23 @@ public class GameManager : MonoBehaviour
     private Transform respawnPoint;
 
     [Header("Audio")]
+    [SerializeField]
     private AudioMixer audioManager;
+
+    [SerializeField]
+    private AudioClip levelMusic;
+    public AudioClip LevelMusic { get { return instance.levelMusic; } }
+    private bool savedVolumePresent = false;
+    public bool SavedVolumePresent { get { return savedVolumePresent; } }
+    private string volumeFilePath;
+
+    private float newMasterVolume;
+    private float newMusicVolume;
+    private float newEffectsVolume;
+
+    public float NewMasterVolume { get { return newMasterVolume; } }
+    public float NewMusicVolume { get { return newMusicVolume; } }
+    public float NewEffectsVolume { get { return newEffectsVolume; } }
 
     [SerializeField]
     private string[] levelNames;
@@ -128,7 +146,7 @@ public class GameManager : MonoBehaviour
 
         if ((!string.IsNullOrEmpty(currentLevelName)))
         {
-            //yield return SoundManager.Instance.StartCoroutine("UnLoadLevel");
+            yield return SoundManager.Instance.StartCoroutine("UnLoadLevel");
 
             AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(currentLevelName);
 
@@ -150,12 +168,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(.75f);
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
-        //SoundManager.LevelLoadComplete();
-
-        //if (LevelManager.Instance && (LevelManager.Instance.GetSpawnPoint() != null))
-        //{
-        //PlayerRespawn();
-        //}
+        SoundManager.LevelLoadComplete();
 
         PlayerRespawn();
         sergeant.Reset();
@@ -178,17 +191,8 @@ public class GameManager : MonoBehaviour
 
     public void GameComplete()
     {
-        currentLevel++;
-        if (currentLevel < levelNames.Length)
-        {
-            //load level coroutine
-        }
-        else
-        {
-            //can't pause pause menu
-            //victoryScreen.gameObject.SetActive(true);
-        }
-        //SaveGame();
+        //victoryScreen.gameObject.SetActive(true);
+
     }
 
     public void ReturnToMainMenu()
@@ -199,4 +203,44 @@ public class GameManager : MonoBehaviour
         gameOverScreen.gameObject.SetActive(false);
         //victoryScreen.gameObject.SetActive(false);
     }
+
+    public void SaveVolume()
+    {
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(volumeFilePath);
+
+        SaveVolume data = new SaveVolume();
+        data.MasterVolume = newMasterVolume;
+        data.MusicVolume = newMusicVolume;
+        data.EffectsVolume = newEffectsVolume;
+
+        bf.Serialize(file, data);
+        file.Close();
+
+        //optionsScreen.gameObject.SetActive(false);
+
+        Debug.Log("Save game from " + Application.persistentDataPath);
+    }
+
+    public void LoadVolume()
+    {
+        if (File.Exists(volumeFilePath))
+        {
+            savedVolumePresent = true;
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(volumeFilePath, FileMode.Open);
+            SaveVolume data = (SaveVolume)bf.Deserialize(file);
+        }
+        Debug.Log("Load volume settings from " + Application.persistentDataPath);
+    }
+}
+
+//Volume Preferences
+[Serializable]
+class SaveVolume
+{
+    public float MasterVolume { get; set; }
+    public float MusicVolume { get; set; }
+    public float EffectsVolume { get; set; }
 }
