@@ -64,12 +64,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float maxForce = 25f;
     [SerializeField]
-    private float chargeTime = 3f;
-    [SerializeField]
-    private float forceMultiplier = 2f;
-    [SerializeField]
     private float brakeDampening = 0.5f;
-    private bool isBraking = false;
+    public bool isBraking = false;
+
+    private float chargeTimeTotal;
+    private float force;
 
     private Transform playerLocation;
     private Rigidbody rb;
@@ -82,6 +81,8 @@ public class Player : MonoBehaviour
     [Header("Goo Bounce")]
     public bool Bounced = false;
     public Vector3 BounceVector = Vector3.zero;
+
+    public float playerVelocity;
 
     [Header("Sound")]
     [SerializeField]
@@ -130,6 +131,7 @@ public class Player : MonoBehaviour
         {
             rb.velocity = Vector3.zero;
         }
+        playerVelocity = rb.velocity.magnitude;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -176,6 +178,15 @@ public class Player : MonoBehaviour
 
             }
             else if (currentMode == SuckGunMode.COMBAT)
+            {
+                currentMode = SuckGunMode.MOVEMENT;
+                //Blue material
+                SGMouth.material = movementModeMat;
+                SGRing.material = movementModeMat;
+                SergeantScreen.material = movementModeMat;
+            }
+
+            if (ammo == 0 && currentMode == SuckGunMode.COMBAT)
             {
                 currentMode = SuckGunMode.MOVEMENT;
                 //Blue material
@@ -292,14 +303,11 @@ public class Player : MonoBehaviour
     {
         //End the charge and reset the gauge
         isCharging = false;
-        chargeStartTime = 0f;
 
-        float chargeTimeTotal = Time.time - chargeStartTime;
-        float normalizedCharge = Mathf.Clamp01(chargeTimeTotal / chargeTime);
-        float force = Mathf.Lerp(0f, maxForce, normalizedCharge);
-        currentForce = force;
+        chargeTimeTotal = Time.time - chargeStartTime;
+        force = Mathf.Lerp(0f, maxForce, chargeTimeTotal);
         Vector3 oppositeDir = -Direction;
-        rb.AddForce(oppositeDir * force * forceMultiplier, ForceMode.Impulse);
+        rb.AddForce(oppositeDir * force, ForceMode.Impulse);
     }
 
     public void TakeDamage(int dmgAmount)
@@ -317,16 +325,6 @@ public class Player : MonoBehaviour
         //Death Coroutine
         if (health <= 0)
             StartCoroutine("Death");
-        else if (health < 100f)
-            StartCoroutine("RegenHealth");
-    }
-
-    private IEnumerator RegenHealth()
-    {
-        yield return new WaitForSeconds(timeToRegen);
-
-        health += regenAmount;
-        health = Mathf.Clamp(health, 0, maxHealth);
     }
 
     private IEnumerator Death()

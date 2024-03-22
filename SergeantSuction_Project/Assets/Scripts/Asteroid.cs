@@ -25,7 +25,15 @@ public class Asteroid : MonoBehaviour
         {
             if (currentType == asteroidType.Normal)
             {
-                collision.gameObject.GetComponent<Player>().TakeDamage(10);
+                if (collision.gameObject.GetComponent<Player>().playerVelocity >= 45)
+                {
+                    collision.gameObject.GetComponent<Player>().TakeDamage(25);
+                }
+                else if (collision.gameObject.GetComponent<Player>().playerVelocity <= 44 && collision.gameObject.GetComponent<Player>().playerVelocity > 25)
+                {
+                    collision.gameObject.GetComponent<Player>().TakeDamage(10);
+                }
+
             }
             else if (currentType == asteroidType.Goo)
             {

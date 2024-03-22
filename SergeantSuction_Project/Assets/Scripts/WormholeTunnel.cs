@@ -20,6 +20,7 @@ public class WormholeTunnel : MonoBehaviour
             {   
                 playerRB.AddForce(tunnelDir.normalized * tunnelSpeed, ForceMode.Force);
             }
+            other.GetComponent<Player>().isBraking = false;
         }
     }
 }
