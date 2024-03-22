@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
@@ -60,6 +61,14 @@ public class Player : MonoBehaviour
     private int maxAmmo = 10;
     private int ammo = 0;
 
+    [Header("Charge Up")]
+    [SerializeField]
+    private Image movementGauge;
+    [SerializeField]
+    private Image ammoGauge;
+    [SerializeField]
+    private Image brakeIndicator;
+
     [Header("Movement")]
     [SerializeField]
     private float maxForce = 25f;
@@ -116,6 +125,7 @@ public class Player : MonoBehaviour
             {
                 UpdateCamera();
                 UpdatePlayer();    //We may need the space of the update function so we will choose to create functions
+                ammoGauge.fillAmount = (float)ammo / (float)maxAmmo;
             }
 
             if (!dying)
@@ -176,6 +186,8 @@ public class Player : MonoBehaviour
                 SGRing.material = combatModeMat;
                 SergeantScreen.material = combatModeMat;
 
+                ammoGauge.gameObject.SetActive(true);
+
             }
             else if (currentMode == SuckGunMode.COMBAT)
             {
@@ -184,6 +196,8 @@ public class Player : MonoBehaviour
                 SGMouth.material = movementModeMat;
                 SGRing.material = movementModeMat;
                 SergeantScreen.material = movementModeMat;
+
+                ammoGauge.gameObject.SetActive(false);
             }
 
             if (ammo == 0 && currentMode == SuckGunMode.COMBAT)
@@ -193,6 +207,9 @@ public class Player : MonoBehaviour
                 SGMouth.material = movementModeMat;
                 SGRing.material = movementModeMat;
                 SergeantScreen.material = movementModeMat;
+
+
+                ammoGauge.gameObject.SetActive(false);
             }
 
         }
@@ -221,28 +238,34 @@ public class Player : MonoBehaviour
                 playerLocation.rotation = Quaternion.Euler(0f, lookAngles.y, 0f);
                 rb.rotation = Quaternion.Euler(0f, lookAngles.y, 0f);
 
+                playerLocation.position = new Vector3(playerLocation.position.x, 7f, playerLocation.position.z);
+
                 switch (currentMode)
                 {
                     case SuckGunMode.MOVEMENT:
 
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.GetMouseButtonDown(0) && isBraking == false)
                         {
                             ChargeUp();
+                            movementGauge.gameObject.SetActive(true);
                         }
 
-                        if (Input.GetMouseButtonUp(0))
+                        if (Input.GetMouseButtonUp(0)&& isBraking == false)
                         {
                             ChargeRelease(Direction);
+                            movementGauge.gameObject.SetActive(false);
                         }
 
                         if (Input.GetMouseButtonDown(1))
                         {
                             isBraking = true;
+                            brakeIndicator.gameObject.SetActive(true);
                         }
 
                         if(Input.GetMouseButtonUp(1))
                         {
                             isBraking = false;
+                            brakeIndicator.gameObject.SetActive(false);
                         }
                         break;
 
