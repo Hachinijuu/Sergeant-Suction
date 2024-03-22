@@ -133,6 +133,10 @@ public class Player : MonoBehaviour
                 UpdateHealth();
             }
         }
+        else
+        {
+            movementGauge.gameObject.SetActive(false);
+        }
     }
 
     private void FixedUpdate()
