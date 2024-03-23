@@ -71,7 +71,9 @@ public class Player : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField]
-    private float maxForce = 25f;
+    private float chargeTime = 2.0f;
+    [SerializeField]
+    private float maxForce = 50f;
     [SerializeField]
     private float brakeDampening = 0.5f;
     public bool isBraking = false;
@@ -191,6 +193,7 @@ public class Player : MonoBehaviour
                 SergeantScreen.material = combatModeMat;
 
                 ammoGauge.gameObject.SetActive(true);
+                //StartCoroutine(SgSwitchSound());
 
             }
             else if (currentMode == SuckGunMode.COMBAT)
@@ -202,6 +205,7 @@ public class Player : MonoBehaviour
                 SergeantScreen.material = movementModeMat;
 
                 ammoGauge.gameObject.SetActive(false);
+                //StartCoroutine(SgSwitchSound());
             }
 
             if (ammo == 0 && currentMode == SuckGunMode.COMBAT)
@@ -214,6 +218,7 @@ public class Player : MonoBehaviour
 
 
                 ammoGauge.gameObject.SetActive(false);
+                //StartCoroutine(SgSwitchSound());
             }
 
         }
@@ -281,8 +286,7 @@ public class Player : MonoBehaviour
                         }
                         break;
                 }
-            }
-
+            } 
 
             //Handle the goo bounce
             if (Bounced == true)
@@ -363,6 +367,20 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(respawnDelay);
         GameManager.Instance.PlayerDeathEvent();
+    }
+
+    private IEnumerator SgSwitchSound()
+    {
+        if (audioSource != null && SGModeSwitch != null)
+        {
+            audioSource.clip = SGModeSwitch;
+            audioSource.Play();
+            yield return new WaitForSeconds(audioSource.clip.length);
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource or Clip is not assigned.");
+        }
     }
 
     public void UpdateAmmo()
