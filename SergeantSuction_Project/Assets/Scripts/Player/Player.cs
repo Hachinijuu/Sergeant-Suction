@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField]
-    private float chargeTime = 2.0f;
+    private float maxCharge = 2.0f;
     [SerializeField]
     private float maxForce = 50f;
     [SerializeField]
@@ -117,6 +117,12 @@ public class Player : MonoBehaviour
         health = maxHealth;
         dying = false;
         canMove = true;
+        isBraking = false;
+        isCharging = false;
+        Bounced = false;
+        ammoGauge.gameObject.SetActive(false);
+        movementGauge.gameObject.SetActive(false);
+        brakeIndicator.gameObject.SetActive(false);
     }
 
     void Update()
@@ -128,6 +134,7 @@ public class Player : MonoBehaviour
                 UpdateCamera();
                 UpdatePlayer();    //We may need the space of the update function so we will choose to create functions
                 ammoGauge.fillAmount = (float)ammo / (float)maxAmmo;
+                //movementGauge.fillAmount = chargeStartTime / maxCharge; 
             }
 
             if (!dying)
@@ -345,6 +352,10 @@ public class Player : MonoBehaviour
     {
         health -= dmgAmount;
 
+        if(health > maxHealth)
+        {
+            health = maxHealth;
+        }
         if (health <= 0)
         {
             Death();

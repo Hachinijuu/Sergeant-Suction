@@ -55,6 +55,14 @@ public class GameManager : MonoBehaviour
     {
         get { return sergeantGO; }
     }
+    [SerializeField]
+    private int lives = 3;
+
+    public int Playerlives
+    {
+        get { return lives; }
+        set { lives = value; }
+    }
 
     [Header("Respawn Points")]
     [SerializeField]
@@ -119,8 +127,17 @@ public class GameManager : MonoBehaviour
     //Code for respawning the player
     public void PlayerDeathEvent()
     {
-        gameOverScreen.gameObject.SetActive(true);
-        pauseMenu.CanPause = false;
+        if(lives <= 0)
+        {
+            gameOverScreen.gameObject.SetActive(true);
+            pauseMenu.CanPause = false;
+        }
+        else if(lives > 0)
+        {
+            lives--;
+            PlayerRespawn();
+        }
+        
     }
 
     public void PlayerRespawn()
