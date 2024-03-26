@@ -65,7 +65,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Image movementGauge;
     [SerializeField]
+    private Image fullMovement;
+    [SerializeField]
     private Image ammoGauge;
+    [SerializeField]
+    private Image fullAmmo;
     [SerializeField]
     private Image brakeIndicator;
 
@@ -134,7 +138,7 @@ public class Player : MonoBehaviour
                 UpdateCamera();
                 UpdatePlayer();    //We may need the space of the update function so we will choose to create functions
                 ammoGauge.fillAmount = (float)ammo / (float)maxAmmo;
-                //movementGauge.fillAmount = chargeStartTime / maxCharge; 
+                movementGauge.fillAmount = (Time.time - chargeStartTime) / maxCharge;  
             }
 
             if (!dying)
@@ -255,6 +259,7 @@ public class Player : MonoBehaviour
                 rb.rotation = Quaternion.Euler(0f, lookAngles.y, 0f);
 
                 playerLocation.position = new Vector3(playerLocation.position.x, 7f, playerLocation.position.z);
+                fullMovement.gameObject.SetActive(false);
 
                 switch (currentMode)
                 {
@@ -266,7 +271,7 @@ public class Player : MonoBehaviour
                             movementGauge.gameObject.SetActive(true);
                         }
 
-                        if (Input.GetMouseButtonUp(0)&& isBraking == false)
+                        if (Input.GetMouseButtonUp(0) && isBraking == false)
                         {
                             ChargeRelease(Direction);
                             movementGauge.gameObject.SetActive(false);
@@ -334,8 +339,11 @@ public class Player : MonoBehaviour
     private void ChargeUp()
     {
         //Start the charge
-        isCharging = true;
-        chargeStartTime = Time.time;
+        if(!isBraking)
+        {
+            isCharging = true;
+            chargeStartTime = Time.time;
+        }
     }
     private void ChargeRelease(Vector3 Direction)
     {
@@ -343,6 +351,10 @@ public class Player : MonoBehaviour
         isCharging = false;
 
         chargeTimeTotal = Time.time - chargeStartTime;
+        if (chargeTimeTotal > maxCharge)
+        {
+            chargeTimeTotal = maxCharge;
+        }
         force = Mathf.Lerp(0f, maxForce, chargeTimeTotal);
         Vector3 oppositeDir = -Direction;
         rb.AddForce(oppositeDir * force, ForceMode.Impulse);

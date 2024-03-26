@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  maxTravelDistance: 10
+  maxTravelDistance: 24
   rb: {fileID: 2488953300617691004}
 --- !u!135 &-7190831416433791910
 SphereCollider:

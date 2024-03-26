@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
     //Code for respawning the player
     public void PlayerDeathEvent()
     {
-        if(lives <= 0)
+        if(lives == 0)
         {
             gameOverScreen.gameObject.SetActive(true);
             pauseMenu.CanPause = false;
@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
 
         if ((!string.IsNullOrEmpty(currentLevelName)))
         {
-            yield return SoundManager.Instance.StartCoroutine("UnLoadLevel");
+            //yield return SoundManager.Instance.StartCoroutine("UnLoadLevel");
 
             AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(currentLevelName);
 
@@ -182,6 +182,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
+        loadingScreen.gameObject.SetActive(false);  // Shut off loading screen
         yield return new WaitForSeconds(.75f);
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
@@ -192,7 +193,7 @@ public class GameManager : MonoBehaviour
 
         currentLevelName = levelName;
 
-        loadingScreen.gameObject.SetActive(false);  // Shut off loading screen
+        //loadingScreen.gameObject.SetActive(false);  // Shut off loading screen
     }
 
     public void StartNewGame()
