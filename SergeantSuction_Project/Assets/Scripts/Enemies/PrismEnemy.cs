@@ -20,7 +20,8 @@ public class PrismEnemy : MonoBehaviour
     private Transform body;
     [SerializeField]
     private Transform fireLocation;
-
+    [SerializeField]
+    private Rigidbody rb;
     [SerializeField]
     private bool dieInstantly = false;
 
@@ -48,6 +49,7 @@ public class PrismEnemy : MonoBehaviour
 
 
     private bool hunting = false;
+    private bool wasNudged = false;
 
     private void Update()
     {
@@ -62,11 +64,14 @@ public class PrismEnemy : MonoBehaviour
         }
         if (player && hunting)
         {
-            transform.LookAt(player.transform);
+            transform.LookAt(new Vector3(player.transform.position.x, 0.0f,player.transform.position.z) );
+
             switch (currentMode)
             {
                 case enemyMode.PHYSICAL:
                     //Fire();
+                    if (wasNudged)
+                        return;
                     if (circling)
                     {
                         transform.Translate(Vector3.right * Time.deltaTime * movementSpeed);
@@ -85,13 +90,14 @@ public class PrismEnemy : MonoBehaviour
                     if (Vector3.Distance(player.transform.position, transform.position) >= followingDistance)
                     {
                         //moves faster when not firing?
-                        transform.Translate(Vector3.forward * Time.deltaTime * movementSpeed * 2);
+                        if(!wasNudged)
+                            transform.Translate(Vector3.forward * Time.deltaTime * movementSpeed * 2);
                         Fire();
                     }
-                    else if (Vector3.Distance(player.transform.position, transform.position) >= followingDistance)
-                    {
-                        Explode();
-                    }
+                    //else if (Vector3.Distance(player.transform.position, transform.position) >= followingDistance)
+                    //{
+                    //    Explode();
+                    //}
                     break;
             }
         }
@@ -118,8 +124,11 @@ public class PrismEnemy : MonoBehaviour
         {
             return;
         }
-        if (other.CompareTag("PlayerBullet") || other.CompareTag("Player"))
+        bool hitPlayer = other.CompareTag("Player");
+        if (other.CompareTag("PlayerBullet") || hitPlayer)
         {
+            if (hitPlayer)
+                StartCoroutine(WasHitByPlayer());
             if (dieInstantly)
             {
                 health = 0;
@@ -134,7 +143,12 @@ public class PrismEnemy : MonoBehaviour
             hunting = true;
         }
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        bool hitPlayer = collision.transform.CompareTag("Player");
+        if (hitPlayer)
+            StartCoroutine(WasHitByPlayer());
+    }
     private void FireBullet()
     {
         Vector3 fireDirection = fireLocation.position - body.position;
@@ -174,5 +188,12 @@ public class PrismEnemy : MonoBehaviour
         audioSource.PlayOneShot(deathClip);
         isDead = true;
         gameObject.SetActive(false);
+    }
+    IEnumerator WasHitByPlayer()
+    {
+        wasNudged = true;
+        yield return new WaitForSeconds(2);
+        wasNudged = false;
+        rb.velocity = Vector3.zero;
     }
 }
