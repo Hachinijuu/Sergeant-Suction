@@ -21,7 +21,7 @@ public class HealthPickup : MonoBehaviour
             }
             else if (type == PickupType.LIFE)
             {
-                GameManager.Instance.Playerlives += 1;
+                GameManager.Instance.PlayerLives += 1;
             }
             gameObject.SetActive(false);
             

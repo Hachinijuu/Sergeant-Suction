@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int lives = 3;
 
-    public int Playerlives
+    public int PlayerLives
     {
         get { return lives; }
         set { lives = value; }

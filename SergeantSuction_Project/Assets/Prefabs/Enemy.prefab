@@ -288,6 +288,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: -6221286231169217597, guid: a96557e193ebcab40810bd3d77df6fe6, type: 3}
   body: {fileID: 1888532216610310884}
   fireLocation: {fileID: 1795321985934898420}
+  rb: {fileID: 6218613810500092510}
   dieInstantly: 1
   fireRate: 5
   followingDistance: 20

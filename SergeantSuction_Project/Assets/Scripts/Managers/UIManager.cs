@@ -26,11 +26,16 @@ public class UIManager : MonoBehaviour
     }
 
     [SerializeField]
+    private Player sergeant;
+
+    [SerializeField]
     private GameObject gameHUD;
 
-    [Header("HUD Settings")]
     [SerializeField]
     private GameObject[] livesImages;
+
+    [SerializeField]
+    private Slider healthSlider;
 
     private void Awake()
     {
@@ -38,11 +43,14 @@ public class UIManager : MonoBehaviour
         {
             instance = this;
         }
+        healthSlider.maxValue = 100.0f;
+        healthSlider.value = sergeant.Health;
     }
 
     void Update()
     {
         UpdateHUD();
+        healthSlider.value = sergeant.Health;
     }
 
     private void UpdateHUD()
@@ -65,16 +73,4 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-
-    /*
-    public void ShowUITrigger(GameObject uiElement)
-    {
-        uiElement.SetActive(true);
-    }
-
-    public void HideUITrigger(GameObject uiElement)
-    {
-        uiElement.SetActive(false);
-    }
-    */
 }

@@ -17,6 +17,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float maxHealth = 100.0f;
     private float health;
+    public float Health
+    {
+        get { return health; }
+    }
     [SerializeField]
     private float respawnDelay = 2.0f;
     [SerializeField]
