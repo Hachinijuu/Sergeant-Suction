@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.004680489, g: 0.004390932, b: 0.0084424205, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1342,6 +1342,58 @@ MonoBehaviour:
   - {fileID: 3681571882185195010, guid: a96557e193ebcab40810bd3d77df6fe6, type: 3}
   - {fileID: 3681571882185195010, guid: a96557e193ebcab40810bd3d77df6fe6, type: 3}
   - {fileID: 3681571882185195010, guid: a96557e193ebcab40810bd3d77df6fe6, type: 3}
+--- !u!1 &676956180
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 676956182}
+  - component: {fileID: 676956181}
+  m_Layer: 0
+  m_Name: DialogueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &676956181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676956180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fe2801cfa850014c8e07db821e7e5f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lieutenantImage: {fileID: 1520189293}
+  sergeantImage: {fileID: 1913891204}
+  textbox: {fileID: 1921883859}
+  textbackground: {fileID: 2035060349}
+  dialogueLines:
+  - Sergeant! Sergeant! Can you hear me! Come In!
+  - ...Lieutenant? That You? I feel like I just got sucked through a max vac!?
+  typingTime: 0.2
+--- !u!4 &676956182
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676956180}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &683417887
 GameObject:
   m_ObjectHideFlags: 0
@@ -5821,3 +5873,4 @@ SceneRoots:
   - {fileID: 1961398355}
   - {fileID: 1046274311}
   - {fileID: 171570149703199776}
+  - {fileID: 676956182}
