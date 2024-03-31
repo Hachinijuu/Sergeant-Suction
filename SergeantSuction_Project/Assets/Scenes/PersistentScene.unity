@@ -1471,11 +1471,11 @@ MonoBehaviour:
   - 'Asteroids will remain in the S.U.C.K. Gun, but don''t worry, they won''t break
     it. '
   - And here I thought this was a normal vacuuming machine...
-  - To shoot them, change modes with E and click to where you would like to shoot!
-  - Understood!
+  - To shoot them, change modes with "E" and click to where you would like to shoot!
+  - Press "E", Understood.
   - Go Sergeant, live another day!
   typingTime: 0.03
-  activationDelay: 4
+  activationDelay: 5
 --- !u!4 &676956182
 Transform:
   m_ObjectHideFlags: 0
@@ -2504,7 +2504,7 @@ Transform:
   m_GameObject: {fileID: 1216846842}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalPosition: {x: -285.6, y: 6, z: -15.1}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -5605,7 +5605,7 @@ PrefabInstance:
       objectReference: {fileID: 1331288565}
     - target: {fileID: 7035083790815246113, guid: baab5764303116c4495be38275de8a63, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9
+      value: -276.6
       objectReference: {fileID: 0}
     - target: {fileID: 7035083790815246113, guid: baab5764303116c4495be38275de8a63, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5613,7 +5613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7035083790815246113, guid: baab5764303116c4495be38275de8a63, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -15.1
       objectReference: {fileID: 0}
     - target: {fileID: 7035083790815246113, guid: baab5764303116c4495be38275de8a63, type: 3}
       propertyPath: m_LocalRotation.w
