@@ -17,6 +17,8 @@ public class DialogeManager : MonoBehaviour
     private List<string> dialogueLines;
     [SerializeField]
     private float typingTime;
+    [SerializeField]
+    private float activationDelay;
 
     private int currentLineIndex = 0;
     private string currentLine;
@@ -25,6 +27,10 @@ public class DialogeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(activationDelay > 0)
+        {
+            WaitForSeconds wait = new WaitForSeconds(activationDelay);
+        }
         ShowDialogue();
     }
 
@@ -59,7 +65,7 @@ public class DialogeManager : MonoBehaviour
         }
     }
 
-    private void ShowDialogue()
+    void ShowDialogue()
     {
         currentLine = dialogueLines[currentLineIndex];
         StartCoroutine(TypeText(currentLine));

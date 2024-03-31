@@ -182,8 +182,9 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        loadingScreen.gameObject.SetActive(false);  // Shut off loading screen
+        
         yield return new WaitForSeconds(.75f);
+        loadingScreen.gameObject.SetActive(false);  // Shut off loading screen
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
         SoundManager.LevelLoadComplete();
