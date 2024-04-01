@@ -60,8 +60,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Renderer SGRing;
     [SerializeField]
-    private Renderer SergeantScreen;
-    [SerializeField]
     private int maxAmmo = 10;
     private int ammo = 0;
 
@@ -211,7 +209,6 @@ public class Player : MonoBehaviour
                 //Orange Material
                 SGMouth.material = combatModeMat;
                 SGRing.material = combatModeMat;
-                SergeantScreen.material = combatModeMat;
 
                 ammoGauge.gameObject.SetActive(true);
                 //StartCoroutine(SgSwitchSound());
@@ -223,7 +220,6 @@ public class Player : MonoBehaviour
                 //Blue material
                 SGMouth.material = movementModeMat;
                 SGRing.material = movementModeMat;
-                SergeantScreen.material = movementModeMat;
 
                 ammoGauge.gameObject.SetActive(false);
                 //StartCoroutine(SgSwitchSound());
@@ -235,7 +231,6 @@ public class Player : MonoBehaviour
                 //Blue material
                 SGMouth.material = movementModeMat;
                 SGRing.material = movementModeMat;
-                SergeantScreen.material = movementModeMat;
 
 
                 ammoGauge.gameObject.SetActive(false);

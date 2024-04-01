@@ -482,14 +482,23 @@ MonoBehaviour:
   SGRing: {fileID: 3509362268602664418}
   SergeantScreen: {fileID: 456507017669490261}
   maxAmmo: 10
+  movementGauge: {fileID: 0}
+  fullMovement: {fileID: 0}
+  ammoGauge: {fileID: 0}
+  fullAmmo: {fileID: 0}
+  brakeIndicator: {fileID: 0}
+  maxCharge: 2
   maxForce: 25
-  chargeTime: 2
-  forceMultiplier: 4.5
+  brakeDampening: 0.5
+  isBraking: 0
   Bounced: 0
   BounceVector: {x: 0, y: 0, z: 0}
+  playerVelocity: 0
   audioSource: {fileID: 0}
   deathClip: {fileID: 0}
   SGModeSwitch: {fileID: 0}
+  movementParticle: {fileID: 0}
+  combatParticle: {fileID: 0}
 --- !u!33 &2176594771096789553
 MeshFilter:
   m_ObjectHideFlags: 0
