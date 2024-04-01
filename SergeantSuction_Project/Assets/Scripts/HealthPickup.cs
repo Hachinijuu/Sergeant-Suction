@@ -11,6 +11,9 @@ public class HealthPickup : MonoBehaviour
     [SerializeField]
     private int healingAmmount;
 
+    [SerializeField]
+    private ParticleSystem pickupEffect;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

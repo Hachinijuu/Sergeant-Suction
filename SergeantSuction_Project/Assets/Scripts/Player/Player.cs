@@ -111,6 +111,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip SGModeSwitch;
 
+    [Header("Particles")]
+    [SerializeField]
+    private ParticleSystem movementParticle;
+    [SerializeField]
+    private ParticleSystem combatParticle;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -298,7 +304,13 @@ public class Player : MonoBehaviour
 
                         if (Input.GetMouseButtonDown(0))
                         {
+                            combatParticle.gameObject.SetActive(true);
                             FireProjectile();
+                        }
+
+                        if(Input.GetMouseButtonUp(0))
+                        {
+                            combatParticle.gameObject.SetActive(false);
                         }
                         break;
                 }
@@ -347,6 +359,7 @@ public class Player : MonoBehaviour
         {
             isCharging = true;
             chargeStartTime = Time.time;
+            movementParticle.gameObject.SetActive(true);
         }
     }
     private void ChargeRelease(Vector3 Direction)
@@ -362,6 +375,7 @@ public class Player : MonoBehaviour
         force = Mathf.Lerp(0f, maxForce, chargeTimeTotal);
         Vector3 oppositeDir = -Direction;
         rb.AddForce(oppositeDir * force, ForceMode.Impulse);
+        movementParticle.gameObject.SetActive(false);
     }
 
     public void TakeDamage(int dmgAmount)

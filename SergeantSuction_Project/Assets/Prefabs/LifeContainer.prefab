@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 6644846563431027251}
   - component: {fileID: 7445904341413539857}
   - component: {fileID: 56614730290721132}
+  - component: {fileID: 8939364500296301572}
   m_Layer: 0
   m_Name: LifeContainer
   m_TagString: Untagged
@@ -153,6 +154,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   healingAmmount: 0
+--- !u!95 &8939364500296301572
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5075321104886890312}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 83877f4cbb475734788573670122f817, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6253030015348073946
 GameObject:
   m_ObjectHideFlags: 0
