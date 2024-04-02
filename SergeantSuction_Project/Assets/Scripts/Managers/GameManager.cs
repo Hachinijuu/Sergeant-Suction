@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
     private PauseMenu pauseMenu;
     [SerializeField]
     private GameOver gameOverScreen;
+    [SerializeField]
+    private GameObject HUD;
     //private WinScreen winScreen;
 
     [Header("Player")]
@@ -130,6 +132,8 @@ public class GameManager : MonoBehaviour
         if(lives == 0)
         {
             gameOverScreen.gameObject.SetActive(true);
+            HUD.gameObject.SetActive(false);
+
             pauseMenu.CanPause = false;
         }
         else if(lives > 0)
@@ -151,6 +155,7 @@ public class GameManager : MonoBehaviour
         sergeant.gameObject.SetActive(true);
         pauseMenu.CanPause = true;
         gameOverScreen.gameObject.SetActive(false);
+        HUD.gameObject.SetActive(true);
     }
 
     private IEnumerator LoadLevel(string levelName)

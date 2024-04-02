@@ -300,12 +300,9 @@ public class Player : MonoBehaviour
                         if (Input.GetMouseButtonDown(0))
                         {
                             combatParticle.gameObject.SetActive(true);
-                            FireProjectile();
-                        }
-
-                        if(Input.GetMouseButtonUp(0))
-                        {
+                            WaitForSeconds wait = new WaitForSeconds(0.1f);
                             combatParticle.gameObject.SetActive(false);
+                            FireProjectile();
                         }
                         break;
                 }
@@ -396,7 +393,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator Death()
     {
-        audioSource.PlayOneShot(deathClip);
+        //audioSource.PlayOneShot(deathClip);
         dying = true;
         canMove = false;
         //animator.SetTrigger("Death");

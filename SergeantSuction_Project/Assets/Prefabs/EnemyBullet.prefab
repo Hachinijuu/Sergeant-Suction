@@ -119,6 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentMode: 1
-  speed: 35
+  speed: 20
   deathTime: 2
   maxHomingTime: 1
