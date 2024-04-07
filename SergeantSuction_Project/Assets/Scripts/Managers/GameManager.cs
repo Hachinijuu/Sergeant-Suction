@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private string mainMenuName;
     [SerializeField]
+    private string creditsMenuName;
+    [SerializeField]
     private LoadingScreen loadingScreen;
     [SerializeField]
     private PauseMenu pauseMenu;
@@ -194,8 +196,15 @@ public class GameManager : MonoBehaviour
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
         SoundManager.LevelLoadComplete();
 
-        PlayerRespawn();
-        sergeant.Reset();
+        if(currentLevelName == mainMenuName)
+        {
+            PlayerRespawn();
+            sergeant.Reset();
+        }
+        else
+        {
+            HUD.gameObject.SetActive(false);    //This doesn't seem to work :sob:
+        }
 
         currentLevelName = levelName;
 
@@ -208,9 +217,13 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadLevel(levelNames[currentLevel]));
     }
 
-    public void ContinueGame()
+    public void Credits()
     {
-
+        StartCoroutine(LoadLevel(creditsMenuName));
+        pauseMenu.CanPause = false;
+        sergeantGO.SetActive(false);
+        gameOverScreen.gameObject.SetActive(false);
+        HUD.gameObject.SetActive(false);
     }
 
     public void GameComplete()
@@ -225,6 +238,7 @@ public class GameManager : MonoBehaviour
         pauseMenu.CanPause = false;
         sergeantGO.SetActive(false);
         gameOverScreen.gameObject.SetActive(false);
+        HUD.gameObject.SetActive(false);
         //victoryScreen.gameObject.SetActive(false);
     }
 

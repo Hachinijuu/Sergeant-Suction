@@ -895,7 +895,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continue
+  m_text: Credits
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e46987a56b15ad4c810617820d075df, type: 2}
   m_sharedMaterial: {fileID: -8392170715213468484, guid: 3e46987a56b15ad4c810617820d075df, type: 2}
@@ -1735,7 +1735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &936317385
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1799,7 +1799,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 936317387}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1444523761}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: Credits
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &936317387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3340,7 +3352,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ecd32d36db5b13d469a3b399a93a0698, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 446dd5693410021418203bd555cdead1, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -3784,13 +3796,13 @@ MonoBehaviour:
   movementModeMat: {fileID: 0}
   SGMouth: {fileID: 0}
   SGRing: {fileID: 0}
-  SergeantScreen: {fileID: 0}
   maxAmmo: 10
   movementGauge: {fileID: 0}
   fullMovement: {fileID: 0}
   ammoGauge: {fileID: 0}
   fullAmmo: {fileID: 0}
   brakeIndicator: {fileID: 0}
+  slowChargeGauge: {fileID: 0}
   maxCharge: 2
   maxForce: 30
   brakeDampening: 0.5
@@ -3801,6 +3813,8 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   deathClip: {fileID: 0}
   SGModeSwitch: {fileID: 0}
+  movementParticle: {fileID: 0}
+  combatParticle: {fileID: 0}
 --- !u!1 &107562883645877014
 GameObject:
   m_ObjectHideFlags: 0

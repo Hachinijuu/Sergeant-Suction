@@ -17,9 +17,9 @@ public class MainMenu : MonoBehaviour
         //continueButton.interactable = GameManager.Instance.SaveGamePresent;
     }
 
-    public void ContinueGame()
+    public void Credits()
     {
-        GameManager.Instance.ContinueGame();
+        GameManager.Instance.Credits();
     }
 
     public void NewGame()
