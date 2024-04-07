@@ -103,6 +103,8 @@ public class Player : MonoBehaviour
 
     public float playerVelocity;
 
+    bool canCharge = true;
+
     [Header("Sound")]
     [SerializeField]
     private AudioSource audioSource;
@@ -215,6 +217,12 @@ public class Player : MonoBehaviour
                 ammoGauge.gameObject.SetActive(true);
                 //StartCoroutine(SgSwitchSound());
 
+                movementGauge.gameObject.SetActive(false);
+                movementParticle.gameObject.SetActive(false);
+                isCharging = false;
+                chargeStartTime = 0;
+                chargeTimeTotal = 0;
+                canCharge = false;
             }
             else if (currentMode == SuckGunMode.COMBAT)
             {
@@ -276,17 +284,29 @@ public class Player : MonoBehaviour
                         {
                             ChargeUp();
                             movementGauge.gameObject.SetActive(true);
+                            canCharge = true;
                         }
 
-                        if (Input.GetMouseButtonUp(0) && isBraking == false)
-                        {
-                            ChargeRelease(Direction);
+                        if (Input.GetMouseButtonUp(0) && isBraking == false && canCharge)
+                        { 
+                            ChargeRelease(Direction);  
                             movementGauge.gameObject.SetActive(false);
+                        }
+
+                        if(Input.GetMouseButtonUp(0) && isBraking == true)
+                        {
+                            movementGauge.gameObject.SetActive(false);
+                            movementParticle.gameObject.SetActive(false);
+                            chargeStartTime = 0;
                         }
 
                         if (Input.GetMouseButtonDown(1))
                         {
                             isBraking = true;
+                            isCharging = false;
+                            canCharge = false;
+                            movementParticle.gameObject.SetActive(false);
+                            movementGauge.gameObject.SetActive(false);
                             brakeIndicator.gameObject.SetActive(true);
                         }
 
@@ -305,7 +325,20 @@ public class Player : MonoBehaviour
                             WaitForSeconds wait = new WaitForSeconds(0.1f);
                             combatParticle.gameObject.SetActive(false);
                             FireProjectile();
+                            BulletReBound(Direction);
                         }
+                        if (Input.GetMouseButtonDown(1))
+                        {
+                            isBraking = true;
+                            brakeIndicator.gameObject.SetActive(true);
+                        }
+
+                        if (Input.GetMouseButtonUp(1))
+                        {
+                            isBraking = false;
+                            brakeIndicator.gameObject.SetActive(false);
+                        }
+
                         break;
                 }
             } 
@@ -359,17 +392,28 @@ public class Player : MonoBehaviour
     private void ChargeRelease(Vector3 Direction)
     {
         //End the charge and reset the gauge
-        isCharging = false;
-
-        chargeTimeTotal = Time.time - chargeStartTime;
-        if (chargeTimeTotal > maxCharge)
+        if (!isBraking)
         {
-            chargeTimeTotal = maxCharge;
+            isCharging = false;
+           
+            if (chargeTimeTotal > maxCharge)
+            {
+                chargeTimeTotal = maxCharge;
+            }
+
+            chargeTimeTotal = Time.time - chargeStartTime;
+
+            force = Mathf.Lerp(0f, maxForce, chargeTimeTotal);
+            Vector3 oppositeDir = -Direction;
+            rb.AddForce(oppositeDir * force, ForceMode.Impulse);
+            movementParticle.gameObject.SetActive(false); 
         }
-        force = Mathf.Lerp(0f, maxForce, chargeTimeTotal);
+    }
+
+    private void BulletReBound(Vector3 Direction)
+    {
         Vector3 oppositeDir = -Direction;
-        rb.AddForce(oppositeDir * force, ForceMode.Impulse);
-        movementParticle.gameObject.SetActive(false);
+        rb.AddForce(oppositeDir * rb.velocity.magnitude * 2, ForceMode.Impulse);
     }
 
     public void TakeDamage(int dmgAmount)

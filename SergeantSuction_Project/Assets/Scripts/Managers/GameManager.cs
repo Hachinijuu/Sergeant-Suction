@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -103,6 +104,8 @@ public class GameManager : MonoBehaviour
     private int currentLevel = 0;
     private string currentLevelName;
 
+    private bool endCredits = false;
+
     //Code
     private void Awake()
     {
@@ -112,6 +115,7 @@ public class GameManager : MonoBehaviour
         }
 
         sergeant = sergeantGO.GetComponent<Player>();
+        pauseMenu.CanPause = true;
     }
 
     private void Update()
@@ -119,6 +123,10 @@ public class GameManager : MonoBehaviour
         if(currentLevelName == mainMenuName)
         {
             sergeantGO.SetActive(false);
+        }
+        if(endCredits == true)
+        {
+            HUD.gameObject.SetActive(false);
         }
     }
 
@@ -203,7 +211,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            HUD.gameObject.SetActive(false);    //This doesn't seem to work :sob:
+            HUD.gameObject.SetActive(false);   //This doesn't seem to work :sob:
         }
 
         currentLevelName = levelName;
@@ -215,21 +223,22 @@ public class GameManager : MonoBehaviour
     {
         currentLevel = 0;
         StartCoroutine(LoadLevel(levelNames[currentLevel]));
+        pauseMenu.CanPause = true;
     }
 
     public void Credits()
     {
+        endCredits = true;
         StartCoroutine(LoadLevel(creditsMenuName));
         pauseMenu.CanPause = false;
         sergeantGO.SetActive(false);
         gameOverScreen.gameObject.SetActive(false);
-        HUD.gameObject.SetActive(false);
+        Instance.HUD.SetActive(false);
     }
 
     public void GameComplete()
     {
         //victoryScreen.gameObject.SetActive(true);
-
     }
 
     public void ReturnToMainMenu()

@@ -15,6 +15,8 @@ public class PrismEnemy : MonoBehaviour
     [SerializeField]
     private AudioClip deathClip;
     [SerializeField]
+    private AudioClip followClip;
+    [SerializeField]
     private Projectile bulletPrefab;
     [SerializeField]
     private Transform body;
@@ -141,6 +143,7 @@ public class PrismEnemy : MonoBehaviour
         if (other.CompareTag("EnemyTrigger"))
         {
             hunting = true;
+            audioSource.PlayOneShot(followClip);
         }
     }
     private void OnCollisionEnter(Collision collision)

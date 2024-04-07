@@ -63,6 +63,20 @@ public class DialogeManager : MonoBehaviour
                 textbox.text = currentLine;
             }
         }
+        if(Input.GetKeyDown(KeyCode.X))
+        {
+            if(isTyping)
+            {
+                StopAllCoroutines();
+                isTyping = false;
+                textbox.text = currentLine;
+            }
+            while (currentLineIndex < dialogueLines.Count)
+            {
+                textbox.text += dialogueLines[currentLineIndex];
+                currentLineIndex++;
+            }
+        }
     }
 
     void ShowDialogue()

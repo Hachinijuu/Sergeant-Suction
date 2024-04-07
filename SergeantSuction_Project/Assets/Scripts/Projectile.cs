@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
     private ProjectileType currentMode;
 
     [SerializeField]
-    private float speed = 5f;
+    private float speed = 50f;
     [SerializeField]
     private float deathTime = 5f;
     [SerializeField]
