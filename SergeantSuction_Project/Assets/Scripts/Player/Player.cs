@@ -74,6 +74,8 @@ public class Player : MonoBehaviour
     private Image fullAmmo;
     [SerializeField]
     private Image brakeIndicator;
+    [SerializeField]
+    private Image slowChargeGauge;
 
     [Header("Movement")]
     [SerializeField]
