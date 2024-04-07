@@ -84,6 +84,8 @@ public class Player : MonoBehaviour
     private float maxForce = 50f;
     [SerializeField]
     private float brakeDampening = 0.5f;
+    [SerializeField]
+    private float recoilStrength = 1.0f;
     public bool isBraking = false;
 
     private float chargeTimeTotal;
@@ -413,7 +415,7 @@ public class Player : MonoBehaviour
     private void BulletReBound(Vector3 Direction)
     {
         Vector3 oppositeDir = -Direction;
-        rb.AddForce(oppositeDir * rb.velocity.magnitude * 2, ForceMode.Impulse);
+        rb.AddForce(oppositeDir * rb.velocity.magnitude * recoilStrength, ForceMode.Impulse);
     }
 
     public void TakeDamage(int dmgAmount)
