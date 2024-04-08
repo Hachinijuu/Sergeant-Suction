@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -26,6 +27,8 @@ public class PrismEnemy : MonoBehaviour
     private Rigidbody rb;
     [SerializeField]
     private bool dieInstantly = false;
+    [SerializeField]
+    private GameObject particles;
 
     bool isDead = false;
 
@@ -52,6 +55,8 @@ public class PrismEnemy : MonoBehaviour
 
     private bool hunting = false;
     private bool wasNudged = false;
+
+    private Animator animator;
 
     private void Update()
     {
@@ -113,11 +118,17 @@ public class PrismEnemy : MonoBehaviour
     {
         //LevelManager.Instance.RegisterEnemy(this);
         //StartCoroutine("IdleSounds");
+        animator = GetComponent<Animator>();
+        animator.SetBool("IsDead", false);
+        particles.SetActive(false);
+
     }
 
     public void Reset()
     {
         isDead = false;
+        animator.SetBool("IsDead", false);
+        particles.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -188,9 +199,15 @@ public class PrismEnemy : MonoBehaviour
 
     void Death()
     {
+        audioSource.clip = deathClip;
         audioSource.PlayOneShot(deathClip);
+        audioSource.clip = null;
+
         isDead = true;
         gameObject.SetActive(false);
+        animator.SetBool("IsDead", true);
+        particles.SetActive(true);
+
     }
     IEnumerator WasHitByPlayer()
     {

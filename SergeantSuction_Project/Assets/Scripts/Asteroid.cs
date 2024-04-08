@@ -8,6 +8,8 @@ public class Asteroid : MonoBehaviour
 
     [SerializeField]
     asteroidType currentType;
+    //[SerializeField]
+    //private AudioSource audioSource;
 
     private void Start()
     {

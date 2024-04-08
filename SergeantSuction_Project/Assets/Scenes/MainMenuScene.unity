@@ -3806,6 +3806,7 @@ MonoBehaviour:
   maxCharge: 2
   maxForce: 30
   brakeDampening: 0.5
+  recoilStrength: 1
   isBraking: 0
   Bounced: 0
   BounceVector: {x: 0, y: 0, z: 0}

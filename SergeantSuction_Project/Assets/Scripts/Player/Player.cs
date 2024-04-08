@@ -113,7 +113,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip deathClip;
     [SerializeField]
-    private AudioClip SGModeSwitch;
+    private AudioClip movementToCombat;
+    [SerializeField]
+    private AudioClip combatToMovement;
+    [SerializeField]
+    private AudioClip getAmmoSound;
 
     [Header("Particles")]
     [SerializeField]
@@ -190,6 +194,11 @@ public class Player : MonoBehaviour
                 {
                     other.gameObject.SetActive(false);
                     ammo++;
+
+                    audioSource.clip = getAmmoSound;
+                    audioSource.volume = 0.01f;
+                    audioSource.PlayOneShot(getAmmoSound);
+                    audioSource.volume = 1.0f;
                 }
             }
         }
@@ -209,12 +218,13 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            audioSource.clip = SGModeSwitch;
-            audioSource.PlayOneShot(SGModeSwitch);
-            audioSource.clip = null;
 
             if (currentMode == SuckGunMode.MOVEMENT)
             {
+                audioSource.clip = movementToCombat;
+                audioSource.PlayOneShot(movementToCombat);
+                audioSource.clip = null;
+
                 currentMode = SuckGunMode.COMBAT;
                 //Orange Material
                 SGMouth.material = combatModeMat;
@@ -232,6 +242,10 @@ public class Player : MonoBehaviour
             }
             else if (currentMode == SuckGunMode.COMBAT)
             {
+                audioSource.clip = combatToMovement;
+                audioSource.PlayOneShot(combatToMovement);
+                audioSource.clip = null;
+
                 currentMode = SuckGunMode.MOVEMENT;
                 //Blue material
                 SGMouth.material = movementModeMat;
@@ -243,6 +257,10 @@ public class Player : MonoBehaviour
 
             if (ammo == 0 && currentMode == SuckGunMode.COMBAT)
             {
+                audioSource.clip = combatToMovement;
+                audioSource.PlayOneShot(combatToMovement);
+                audioSource.clip = null;
+
                 currentMode = SuckGunMode.MOVEMENT;
                 //Blue material
                 SGMouth.material = movementModeMat;
@@ -445,7 +463,10 @@ public class Player : MonoBehaviour
 
     private IEnumerator Death()
     {
-        //audioSource.PlayOneShot(deathClip);
+        audioSource.clip = deathClip;
+        audioSource.PlayOneShot(deathClip);
+        audioSource.clip = null;
+
         dying = true;
         canMove = false;
         //animator.SetTrigger("Death");
@@ -454,6 +475,7 @@ public class Player : MonoBehaviour
         GameManager.Instance.PlayerDeathEvent();
     }
 
+    /*
     private IEnumerator SgSwitchSound()
     {
         if (audioSource != null && SGModeSwitch != null)
@@ -467,6 +489,7 @@ public class Player : MonoBehaviour
             Debug.LogWarning("AudioSource or Clip is not assigned.");
         }
     }
+    */
 
     public void UpdateAmmo()
     {
