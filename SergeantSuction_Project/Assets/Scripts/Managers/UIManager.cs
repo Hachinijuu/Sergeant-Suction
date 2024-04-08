@@ -49,8 +49,11 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        UpdateHUD();
-        healthSlider.value = sergeant.Health;
+        if(sergeant)
+        {
+            UpdateHUD();
+            healthSlider.value = sergeant.Health;
+        }
     }
 
     private void UpdateHUD()

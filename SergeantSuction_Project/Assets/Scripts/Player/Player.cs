@@ -209,6 +209,10 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            audioSource.clip = SGModeSwitch;
+            audioSource.PlayOneShot(SGModeSwitch);
+            audioSource.clip = null;
+
             if (currentMode == SuckGunMode.MOVEMENT)
             {
                 currentMode = SuckGunMode.COMBAT;

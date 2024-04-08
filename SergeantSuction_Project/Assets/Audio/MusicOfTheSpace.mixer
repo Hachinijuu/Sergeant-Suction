@@ -62,7 +62,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SuckGun
+  m_Name: Sergeant
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: b4c46b790d789974dbc901c6555ea9be
   m_Children: []
@@ -166,7 +166,13 @@ AudioMixerSnapshotController:
   m_Name: Snapshot
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 993cdada46804f04293109db0feab4b8
-  m_FloatValues: {}
+  m_FloatValues:
+    6e4ed210dc9fccc44a79e49373497181: 0
+    eb5251b1a7682be4881d93e24fcccabd: 10
+    843c1eb1b311d5541b2b0e23f5aa6575: 0
+    8ab67983e0bd58a46969875d9f3dc7cf: 0
+    037246a438da37f4aa090d7a9d15c7f1: 10
+    562702a5ecdd6df43a48a99601623c68: 10
   m_TransitionOverrides: {}
 --- !u!243 &710089426200591756
 AudioMixerGroupController:

@@ -27,11 +27,11 @@ public class Asteroid : MonoBehaviour
             {
                 if (collision.gameObject.GetComponent<Player>().playerVelocity >= 45)
                 {
-                    collision.gameObject.GetComponent<Player>().TakeDamage(25);
+                    collision.gameObject.GetComponent<Player>().TakeDamage(10);
                 }
                 else if (collision.gameObject.GetComponent<Player>().playerVelocity <= 44 && collision.gameObject.GetComponent<Player>().playerVelocity > 25)
                 {
-                    collision.gameObject.GetComponent<Player>().TakeDamage(10);
+                    collision.gameObject.GetComponent<Player>().TakeDamage(5);
                 }
 
             }

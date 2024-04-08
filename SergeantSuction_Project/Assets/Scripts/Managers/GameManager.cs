@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
     private int currentLevel = 0;
     private string currentLevelName;
 
-    private bool endCredits = false;
+    public bool endCredits = false;
 
     //Code
     private void Awake()
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
         {
             sergeantGO.SetActive(false);
         }
-        if(endCredits == true)
+        if(endCredits == true || !sergeant)
         {
             HUD.gameObject.SetActive(false);
         }
@@ -204,7 +204,9 @@ public class GameManager : MonoBehaviour
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
         SoundManager.LevelLoadComplete();
 
-        if(currentLevelName == mainMenuName)
+        yield return new WaitForSeconds(.75f);
+
+        if (currentLevelName == mainMenuName)
         {
             PlayerRespawn();
             sergeant.Reset();

@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
     public void Credits()
     {
         GameManager.Instance.Credits();
+        GameManager.Instance.endCredits = true;
     }
 
     public void NewGame()
