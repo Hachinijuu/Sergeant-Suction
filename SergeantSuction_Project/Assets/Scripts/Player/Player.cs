@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     [Header("HP")]
     [SerializeField]
     private float maxHealth = 100.0f;
-    private float health;
+    public float health;               //turn back to private
     public float Health
     {
         get { return health; }
@@ -60,8 +60,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Renderer SGRing;
     [SerializeField]
-    private int maxAmmo = 10;
-    private int ammo = 0;
+    private int maxAmmo = 10;    
+    public int ammo = 0;       //turn back to private
 
     [Header("Charge Up")]
     [SerializeField]

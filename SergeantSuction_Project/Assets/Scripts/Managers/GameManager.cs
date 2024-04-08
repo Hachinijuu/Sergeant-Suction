@@ -71,13 +71,13 @@ public class GameManager : MonoBehaviour
 
     [Header("Respawn Points")]
     [SerializeField]
-    private Transform startRespawn;
+    public Transform startRespawn;
     [SerializeField]
-    private Transform midwayRespawn;
+    public Transform midwayRespawn;
     [SerializeField]
-    private Transform endRespawn;
+    public Transform endRespawn;
     //These respawn locations will be assigned into the GM and then flags will determine what respawnPoint equals to.
-    private Transform respawnPoint;
+    public Transform respawnPoint;
 
     [Header("Audio")]
     [SerializeField]
