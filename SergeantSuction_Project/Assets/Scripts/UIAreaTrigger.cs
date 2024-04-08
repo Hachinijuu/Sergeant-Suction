@@ -6,12 +6,20 @@ public class UIAreaTrigger : MonoBehaviour
 {
     [SerializeField]
     private GameObject uiElement;
+    private bool doNotRetrigger = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!doNotRetrigger)
         {
-            uiElement.SetActive(true);
+            if (other.CompareTag("Player"))
+            {
+                uiElement.SetActive(true);
+            }
+        }
+        else
+        {
+            uiElement.SetActive(false);
         }
     }
 
@@ -20,6 +28,15 @@ public class UIAreaTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             uiElement.SetActive(false);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && uiElement.activeSelf)
+        {
+            uiElement.SetActive(false);
+            doNotRetrigger = true;
         }
     }
 }

@@ -156,7 +156,12 @@ public class Player : MonoBehaviour
                 UpdateCamera();
                 UpdatePlayer();    //We may need the space of the update function so we will choose to create functions
                 ammoGauge.fillAmount = (float)ammo / (float)maxAmmo;
-                movementGauge.fillAmount = (Time.time - chargeStartTime) / maxCharge;  
+                movementGauge.fillAmount = (Time.time - chargeStartTime) / maxCharge;
+                if (isCharging && isBraking)
+                {
+                    movementGauge.fillAmount = ((Time.time - chargeStartTime) / maxCharge) * 0.5f;
+                    chargeTimeTotal = chargeTimeTotal * 0.5f;
+                }
             }
 
             if (!dying)
@@ -216,14 +221,15 @@ public class Player : MonoBehaviour
 
     private void UpdateSuckGunMode()
     {
+        audioSource.clip = movementToCombat;
+        audioSource.clip = null;
+
         if (Input.GetKeyDown(KeyCode.E))
         {
 
             if (currentMode == SuckGunMode.MOVEMENT)
             {
-                audioSource.clip = movementToCombat;
-                audioSource.PlayOneShot(movementToCombat);
-                audioSource.clip = null;
+                
 
                 currentMode = SuckGunMode.COMBAT;
                 //Orange Material
@@ -232,6 +238,7 @@ public class Player : MonoBehaviour
 
                 ammoGauge.gameObject.SetActive(true);
                 //StartCoroutine(SgSwitchSound());
+                audioSource.PlayOneShot(movementToCombat);
 
                 movementGauge.gameObject.SetActive(false);
                 movementParticle.gameObject.SetActive(false);
@@ -254,23 +261,22 @@ public class Player : MonoBehaviour
                 ammoGauge.gameObject.SetActive(false);
                 //StartCoroutine(SgSwitchSound());
             }
+        }
 
-            if (ammo == 0 && currentMode == SuckGunMode.COMBAT)
-            {
-                audioSource.clip = combatToMovement;
-                audioSource.PlayOneShot(combatToMovement);
-                audioSource.clip = null;
+        if (ammo == 0 && currentMode == SuckGunMode.COMBAT)
+        {
+            audioSource.clip = combatToMovement;
+            audioSource.PlayOneShot(combatToMovement);
+            audioSource.clip = null;
 
-                currentMode = SuckGunMode.MOVEMENT;
-                //Blue material
-                SGMouth.material = movementModeMat;
-                SGRing.material = movementModeMat;
+            currentMode = SuckGunMode.MOVEMENT;
+            //Blue material
+            SGMouth.material = movementModeMat;
+            SGRing.material = movementModeMat;
 
 
-                ammoGauge.gameObject.SetActive(false);
-                //StartCoroutine(SgSwitchSound());
-            }
-
+            ammoGauge.gameObject.SetActive(false);
+            //StartCoroutine(SgSwitchSound());
         }
     }
     private void UpdatePlayer()
@@ -317,21 +323,21 @@ public class Player : MonoBehaviour
                             movementGauge.gameObject.SetActive(false);
                         }
 
-                        if(Input.GetMouseButtonUp(0) && isBraking == true)
+                        if(Input.GetMouseButtonUp(0) && isBraking == true && canCharge)
                         {
+                            ChargeRelease(Direction);
                             movementGauge.gameObject.SetActive(false);
                             movementParticle.gameObject.SetActive(false);
-                            chargeStartTime = 0;
                         }
 
                         if (Input.GetMouseButtonDown(1))
                         {
                             isBraking = true;
-                            isCharging = false;
-                            canCharge = false;
-                            movementParticle.gameObject.SetActive(false);
-                            movementGauge.gameObject.SetActive(false);
-                            brakeIndicator.gameObject.SetActive(true);
+                            
+                            if(!isCharging)
+                            {
+                                brakeIndicator.gameObject.SetActive(true);
+                            }  
                         }
 
                         if(Input.GetMouseButtonUp(1))
@@ -365,7 +371,12 @@ public class Player : MonoBehaviour
 
                         break;
                 }
-            } 
+            }
+
+            if (isBraking == true && brakeIndicator.gameObject.activeSelf)
+            {
+                canCharge = false;
+            }
 
             //Handle the goo bounce
             if (Bounced == true)
@@ -416,22 +427,19 @@ public class Player : MonoBehaviour
     private void ChargeRelease(Vector3 Direction)
     {
         //End the charge and reset the gauge
-        if (!isBraking)
+        isCharging = false;
+        
+        if (chargeTimeTotal > maxCharge)
         {
-            isCharging = false;
-           
-            if (chargeTimeTotal > maxCharge)
-            {
-                chargeTimeTotal = maxCharge;
-            }
-
-            chargeTimeTotal = Time.time - chargeStartTime;
-
-            force = Mathf.Lerp(0f, maxForce, chargeTimeTotal);
-            Vector3 oppositeDir = -Direction;
-            rb.AddForce(oppositeDir * force, ForceMode.Impulse);
-            movementParticle.gameObject.SetActive(false); 
+            chargeTimeTotal = maxCharge;
         }
+
+        chargeTimeTotal = Time.time - chargeStartTime;
+
+        force = Mathf.Lerp(0f, maxForce, chargeTimeTotal);
+        Vector3 oppositeDir = -Direction;
+        rb.AddForce(oppositeDir * force, ForceMode.Impulse);
+        movementParticle.gameObject.SetActive(false); 
     }
 
     private void BulletReBound(Vector3 Direction)
