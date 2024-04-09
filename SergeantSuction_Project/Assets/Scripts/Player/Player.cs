@@ -67,11 +67,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Image movementGauge;
     [SerializeField]
-    private Image fullMovement;
-    [SerializeField]
     private Image ammoGauge;
-    [SerializeField]
-    private Image fullAmmo;
     [SerializeField]
     private Image brakeIndicator;
     [SerializeField]
@@ -229,7 +225,7 @@ public class Player : MonoBehaviour
 
             if (currentMode == SuckGunMode.MOVEMENT)
             {
-                
+          
 
                 currentMode = SuckGunMode.COMBAT;
                 //Orange Material
@@ -304,7 +300,6 @@ public class Player : MonoBehaviour
                 rb.rotation = Quaternion.Euler(0f, lookAngles.y, 0f);
 
                 playerLocation.position = new Vector3(playerLocation.position.x, 7f, playerLocation.position.z);
-                fullMovement.gameObject.SetActive(false);
 
                 switch (currentMode)
                 {
