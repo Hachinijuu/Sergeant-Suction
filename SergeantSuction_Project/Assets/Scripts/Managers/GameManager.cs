@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Menus")]
     [SerializeField]
-    private string mainMenuName;
+    public string mainMenuName;
     [SerializeField]
     private string creditsMenuName;
     [SerializeField]
@@ -174,7 +174,7 @@ public class GameManager : MonoBehaviour
 
         loadingScreen.gameObject.SetActive(true);  // Turn on loading screen
 
-        yield return new WaitForSeconds(.25f);
+        //yield return new WaitForSeconds(.25f);
 
         if ((!string.IsNullOrEmpty(currentLevelName)))
         {
@@ -198,13 +198,13 @@ public class GameManager : MonoBehaviour
         }
 
         
-        yield return new WaitForSeconds(.75f);
+        //yield return new WaitForSeconds(.75f);
         loadingScreen.gameObject.SetActive(false);  // Shut off loading screen
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
         SoundManager.LevelLoadComplete();
 
-        yield return new WaitForSeconds(.75f);
+        //yield return new WaitForSeconds(.75f);
 
         if (currentLevelName == mainMenuName)
         {
@@ -226,6 +226,7 @@ public class GameManager : MonoBehaviour
         currentLevel = 0;
         StartCoroutine(LoadLevel(levelNames[currentLevel]));
         pauseMenu.CanPause = true;
+        pauseMenu.gameObject.SetActive(true);
     }
 
     public void Credits()
@@ -246,11 +247,13 @@ public class GameManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         StartCoroutine(LoadLevel(mainMenuName));
+        //SceneManager.LoadScene("MainMenuScene");
         pauseMenu.CanPause = false;
         sergeantGO.SetActive(false);
         gameOverScreen.gameObject.SetActive(false);
         HUD.gameObject.SetActive(false);
-        //victoryScreen.gameObject.SetActive(false);
+        //victoryScreen.gameObject.SetActive(false);       
+        pauseMenu.gameObject.SetActive(false);      
     }
 
     public void SaveVolume()
