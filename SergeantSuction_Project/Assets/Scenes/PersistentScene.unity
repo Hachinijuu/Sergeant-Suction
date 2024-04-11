@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.004680489, g: 0.004390932, b: 0.0084424205, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1581,7 +1581,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 850, y: 350}
+  m_AnchoredPosition: {x: 900, y: 400}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &555265465
@@ -6342,7 +6342,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 850, y: 350}
+  m_AnchoredPosition: {x: 900, y: 400}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1941739364160776604
@@ -7112,7 +7112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 850, y: 350}
+  m_AnchoredPosition: {x: 900, y: 400}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3521400952812276202
@@ -8592,7 +8592,6 @@ MonoBehaviour:
   deathClip: {fileID: 8300000, guid: 05374f5ebe844c045b356fa64c2073be, type: 3}
   movementToCombat: {fileID: 8300000, guid: a2b503d4b3c9cc64585e7c70aa2af768, type: 3}
   combatToMovement: {fileID: 8300000, guid: c5b09b27030550a438343146eebdc38a, type: 3}
-  getAmmoSound: {fileID: 8300000, guid: 5243609bc2f142344b94a1bef44be6d9, type: 3}
   movementParticle: {fileID: 1570184579}
   combatParticle: {fileID: 766324807}
 --- !u!222 &6399512855745153605
@@ -9398,7 +9397,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 850, y: 350}
+  m_AnchoredPosition: {x: 900, y: 400}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8176007991646927662

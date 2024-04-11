@@ -112,8 +112,8 @@ public class Player : MonoBehaviour
     private AudioClip movementToCombat;
     [SerializeField]
     private AudioClip combatToMovement;
-    [SerializeField]
-    private AudioClip getAmmoSound;
+    //[SerializeField]
+    //private AudioClip getAmmoSound;
 
     [Header("Particles")]
     [SerializeField]
@@ -196,10 +196,10 @@ public class Player : MonoBehaviour
                     other.gameObject.SetActive(false);
                     ammo++;
 
-                    audioSource.clip = getAmmoSound;
-                    audioSource.volume = 0.01f;
-                    audioSource.PlayOneShot(getAmmoSound);
-                    audioSource.volume = 1.0f;
+                    //audioSource.clip = getAmmoSound;
+                    //audioSource.volume = 0.01f;
+                    //audioSource.PlayOneShot(getAmmoSound);
+                    //audioSource.volume = 1.0f;
                 }
             }
         }
